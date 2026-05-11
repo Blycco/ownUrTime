@@ -36,6 +36,8 @@ Three core moments: task initiation (2-min micro-start), session maintenance (fl
 flutter test               # run all tests
 flutter test --coverage    # with coverage report
 flutter analyze            # static analysis (target: zero warnings)
+flutter build ios --simulator --debug
+flutter build macos --debug
 dart format .              # format code
 flutter pub get            # install packages
 ```

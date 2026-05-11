@@ -18,7 +18,11 @@ dart format --set-exit-if-changed .
 # 3. Tests — must pass
 flutter test
 
-# 4. Secret scan — must find nothing
+# 4. Build verification — must pass (when Apple toolchain/runtime is available)
+flutter build ios --simulator --debug
+flutter build macos --debug
+
+# 5. Secret scan — must find nothing
 grep -rn "sk-\|apiKey\s*=\s*['\"].\|supabaseKey\s*=\s*['\"]" \
   --include="*.dart" lib/
 ```
@@ -26,6 +30,7 @@ grep -rn "sk-\|apiKey\s*=\s*['\"].\|supabaseKey\s*=\s*['\"]" \
 On failure:
 - `flutter analyze` fails → fix warnings, retry
 - `flutter test` fails → diagnose and fix, **do not commit**
+- build fails → fix build/config before commit (if runtime/toolchain missing, document and skip with explicit warning)
 - Secret found → **stop immediately**, move to .env, re-scan before committing
 
 Additional policy:

@@ -68,6 +68,7 @@ RULE 07  Never show "how much wasn't done" — only "how much was done"
 RULE 08  No ad code ever (permanent policy)
 RULE 09  Zero flutter analyze warnings
 RULE 10  Widget tests required (key screens); unit tests required (business logic)
+RULE 10A Commit gate requires build verification (`flutter build ios --simulator --debug` and `flutter build macos --debug`) when toolchain is available
 RULE 11  ADHD UX: minimize initiation barrier, no forced input, first action = 1 tap
 RULE 12  Guest mode first — no forced login before 3rd session completion
 RULE 13  i18n structure from Phase 1 — actual translations in Phase 4
