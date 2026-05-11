@@ -1,0 +1,50 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(flutter *)",
+      "Bash(dart *)",
+      "Bash(git *)",
+      "Bash(grep *)",
+      "Bash(find *)",
+      "Bash(ls *)",
+      "Bash(cat *)",
+      "Bash(mkdir *)",
+      "Bash(cp *)",
+      "Bash(mv *)",
+      "Bash(open *)",
+      "Bash(pandoc *)",
+      "Bash(python3 *)",
+      "Bash(which *)"
+    ],
+    "deny": [
+      "Bash(rm -rf /*)",
+      "Bash(git push --force *)",
+      "Bash(git push -f *)",
+      "Bash(git reset --hard *)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cmd=\"$CLAUDE_TOOL_INPUT_COMMAND\"; if echo \"$cmd\" | grep -q 'git commit'; then found=$(grep -rn \"SUPABASE_SERVICE_ROLE\\|supabaseKey\\s*=\\s*['\\\"]\\|sk-\\|apiKey\\s*=\\s*['\\\"]\" --include='*.dart' lib/ 2>/dev/null); if [ -n \"$found\" ]; then echo \"ERROR: Secret pattern detected in Dart source files:\\n$found\" >&2; exit 2; fi; fi"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "file=\"$CLAUDE_TOOL_INPUT_FILE_PATH\"; [[ \"$file\" == *.dart ]] && dart format \"$file\" 2>/dev/null || true"
+          }
+        ]
+      }
+    ]
+  }
+}
