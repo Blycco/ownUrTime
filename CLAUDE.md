@@ -32,7 +32,7 @@ Push            APNs (iOS/macOS) / FCM (Android, Phase 3+)
 | Agent | Owns |
 |-------|------|
 | **Claude Code (me)** | Architecture design, complex business logic, project context, final PR review |
-| **Codex CLI** | Function implementations, widget boilerplate, test generation, review drafts |
+| **Codex CLI** | Function implementations, widget boilerplate, test generation, code review |
 
 Delegate to Codex: `/codex {task}` → generates prompt → run in Codex CLI terminal
 
@@ -75,31 +75,30 @@ RULE 13  i18n structure from Phase 1 — actual translations in Phase 4
 RULE 14  Read relevant .claude/context/ files before starting any task
 RULE 15  Plan Mode required — run /plan before writing any code
 RULE 16  Codex-labeled task items: generate /codex prompt first, no implementation before Codex runs
-RULE 16  Codex-labeled task items: /codex prompt first, no implementation before Codex runs
 ```
 
 ---
 
 ## Branch & Commit Rules
 
-### 브랜치 계층 구조
+### Branch Hierarchy
 ```
 main
- └─ develop          ← 개발 단계 최상위. 태스크 종료마다 하위 브랜치들이 여기로 머지.
-     ├─ feat/{description}    ← 개별 기능 구현
-     ├─ fix/{description}     ← 버그 수정
-     ├─ chore/{description}   ← 설정·규칙·인프라
-     └─ hotfix/{description}  ← 긴급 수정 (main에서 분기, main+develop 양쪽 머지)
+ └─ develop          ← Top of active development. All task branches merge here.
+     ├─ feat/{description}    ← Feature implementation
+     ├─ fix/{description}     ← Bug fixes
+     ├─ chore/{description}   ← Config, rules, infrastructure
+     └─ hotfix/{description}  ← Emergency fix (branch from main, merge to main + develop)
 ```
 
-**규칙:**
-- `main` — 배포용 최상위. 사용자가 직접 커밋/머지. Claude Code 직접 커밋 금지.
-- `develop` — 개발 최상위. 태스크 완료 시 feat/* → develop 머지 (충돌 확인 포함).
-- 모든 feat/fix/chore 브랜치는 `develop`에서 분기하고 `develop`으로 머지.
-- `hotfix/*` 는 `main`에서 분기, 완료 후 `main` + `develop` 양쪽에 머지.
-- Claude Code는 feat/fix/chore 브랜치에서만 작업. develop·main 직접 커밋 금지.
+**Rules:**
+- `main` — production. User commits/merges only. Claude Code direct commits prohibited.
+- `develop` — development top. On task completion, feat/* merges here (check conflicts).
+- All feat/fix/chore branches fork from `develop` and merge back to `develop`.
+- `hotfix/*` forks from `main`, merges to both `main` + `develop` on completion.
+- Claude Code works on feat/fix/chore branches only. Direct commits to develop/main prohibited.
 
-### 커밋 형식
+### Commit Format
 ```
 Commit format (Korean body — developer preference):
   Feat: 한국어로 작업 요약
@@ -115,7 +114,7 @@ Types: Feat | Fix | Perf | Refactor | Test | Docs | Chore
 - Multiple files changed in one commit is acceptable when they represent one coherent objective.
 - Before opening PR or merging, squash noisy history and keep a concise, meaningful commit set.
 - `fix/*` may be small and fast, but must still include reproducible context and validation.
-- **금지**: 커밋 메시지에 `Co-Authored-By:` 줄 추가 금지. Claude Code가 작성한 커밋임을 메시지에 명시하지 않는다.
+- **Prohibited**: Adding `Co-Authored-By:` line to commit messages. Do not identify Claude Code as author in commit messages.
 
 ---
 
@@ -157,22 +156,23 @@ Start a feature: `/new-task {feature}` → reads tasks/phase1/{N}-feature-{name}
 Templates: `.claude/templates/` — feature-report, qa-report, phase-summary, adr, bug-report, db-design, api-spec, test-result
 
 ## Design & Test Documents
-| 변경 유형 | 업데이트 대상 |
-|----------|-------------|
-| DB 스키마 변경 (테이블/컬럼/RLS/인덱스) | `docs/04_design/db-design.md` |
-| Edge Function 추가/변경 | `docs/04_design/api-spec.md` |
-| 시스템 아키텍처 변경 | `docs/04_design/architecture.md` |
-| 태스크 완료 시 | `docs/05_test_results/integration/{NN}-{name}.md` 추가 |
+| Change type | Update target |
+|------------|--------------|
+| DB schema change (table/column/RLS/index) | `docs/04_design/db-design.md` |
+| Edge Function add/change | `docs/04_design/api-spec.md` |
+| System architecture change | `docs/04_design/architecture.md` |
+| Task completion | Add `docs/05_test_results/integration/{NN}-{name}.md` |
 
 ## Agents & Skills
 - `/agent claude-architect` — orchestration, architecture ownership, final decision
 - `/agent codex-implementer` — bounded implementation, tests, fast execution loops
 - `/agent flutter-reviewer` — before PR merge (architecture + Riverpod + security)
 - `/tdd` — starting a new feature or bug fix
+
 ## Done Criteria
 1. `flutter analyze` clean; relevant tests pass
-2. `flutter-reviewer` 에이전트로 코드 리뷰 완료 — 이슈 수정 후 결과 사용자에게 제시
-3. 사용자 명시적 승인 후 커밋 (Approval Gate 필수)
+2. flutter-reviewer agent review complete — fix issues, present results to user
+3. Explicit user approval before commit (Approval Gate required)
 4. `.claude/memory.md` updated; feature report filed via `/done`
 
-> 자세한 /done 실행 순서 → `.claude/rules/process-workflow.md`
+> Detailed /done execution order → `.claude/rules/process-workflow.md`
