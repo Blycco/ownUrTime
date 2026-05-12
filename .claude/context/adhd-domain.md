@@ -10,10 +10,10 @@
 ## 4 Executive Function Areas & App Response
 | Area | Problem | Evidence | App Feature |
 |------|---------|----------|-------------|
-| **Initiation** ("착수") | 20–40 min to start | [1] | 2-min micro-start + AI task decomposition |
-| **Maintenance** ("유지") | 2–3× more distractions than neurotypical | [2] | Flexible timer, 3-mode distraction detection |
-| **Switching** ("전환") | 50%+ time loss during task transitions | [3] | Pattern-based next-task auto-suggestion |
-| **Recovery** ("복귀") | 2× longer to recover after interruption | [2] | Context restore card, 1-tap re-entry |
+| **Initiation** | 20–40 min to start | [1] | 2-min micro-start + AI task decomposition |
+| **Maintenance** | 2–3× more distractions than neurotypical | [2] | Flexible timer, 3-mode distraction detection |
+| **Switching** | 50%+ time loss during task transitions | [3] | Pattern-based next-task auto-suggestion |
+| **Recovery** | 2× longer to recover after interruption | [2] | Context restore card, 1-tap re-entry |
 
 ---
 

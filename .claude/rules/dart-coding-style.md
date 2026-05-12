@@ -51,7 +51,7 @@ paths:
   - ❌ `import '../../core/router/app_router.dart';`
 - Order: `dart:` → external packages → internal packages
 - Remove unused imports
-- `always_use_package_imports: true` 를 `analysis_options.yaml`에 추가해 CI에서 강제할 것
+- Add `always_use_package_imports: true` to `analysis_options.yaml` to enforce in CI
 
 ## Code Generation (freezed / riverpod_generator)
 - Never manually edit generated files (`*.g.dart`, `*.freezed.dart`)
