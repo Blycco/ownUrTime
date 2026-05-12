@@ -79,9 +79,26 @@ RULE 15  Plan Mode required — run /plan before writing any code
 ---
 
 ## Branch & Commit Rules
-```
-Branches: feat/{description} | fix/{description} | chore/{description}
 
+### 브랜치 계층 구조
+```
+main
+ └─ develop          ← 개발 단계 최상위. 태스크 종료마다 하위 브랜치들이 여기로 머지.
+     ├─ feat/{description}    ← 개별 기능 구현
+     ├─ fix/{description}     ← 버그 수정
+     ├─ chore/{description}   ← 설정·규칙·인프라
+     └─ hotfix/{description}  ← 긴급 수정 (main에서 분기, main+develop 양쪽 머지)
+```
+
+**규칙:**
+- `main` — 배포용 최상위. 사용자가 직접 커밋/머지. Claude Code 직접 커밋 금지.
+- `develop` — 개발 최상위. 태스크 완료 시 feat/* → develop 머지 (충돌 확인 포함).
+- 모든 feat/fix/chore 브랜치는 `develop`에서 분기하고 `develop`으로 머지.
+- `hotfix/*` 는 `main`에서 분기, 완료 후 `main` + `develop` 양쪽에 머지.
+- Claude Code는 feat/fix/chore 브랜치에서만 작업. develop·main 직접 커밋 금지.
+
+### 커밋 형식
+```
 Commit format (Korean body — developer preference):
   Feat: 한국어로 작업 요약
   - 세부 내용 1
@@ -96,6 +113,7 @@ Types: Feat | Fix | Perf | Refactor | Test | Docs | Chore
 - Multiple files changed in one commit is acceptable when they represent one coherent objective.
 - Before opening PR or merging, squash noisy history and keep a concise, meaningful commit set.
 - `fix/*` may be small and fast, but must still include reproducible context and validation.
+- **금지**: 커밋 메시지에 `Co-Authored-By:` 줄 추가 금지. Claude Code가 작성한 커밋임을 메시지에 명시하지 않는다.
 
 ---
 
