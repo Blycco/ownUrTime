@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:talker/talker.dart';
-import 'log_context_provider.dart';
+import 'package:ownurtime/core/logging/log_context_provider.dart';
 
 final loggerServiceProvider = Provider<LoggerService>(
   (ref) => LoggerService(ref, appTalker),

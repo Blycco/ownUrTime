@@ -3,20 +3,22 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:talker_riverpod_logger/talker_riverpod_logger.dart';
 
-import 'core/l10n/app_localizations.dart';
-import 'core/logging/logger_service.dart';
-import 'core/router/app_router.dart';
-import 'core/theme/app_theme.dart';
+import 'package:ownurtime/core/l10n/app_localizations.dart';
+import 'package:ownurtime/core/logging/logger_service.dart';
+import 'package:ownurtime/core/router/app_router.dart';
+import 'package:ownurtime/core/supabase/supabase_config.dart';
+import 'package:ownurtime/core/theme/app_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  const supabaseUrl = String.fromEnvironment('SUPABASE_URL');
-  if (supabaseUrl.isNotEmpty) {
+  if (SupabaseConfig.url.isNotEmpty) {
     await Supabase.initialize(
-      url: supabaseUrl,
-      anonKey: const String.fromEnvironment('SUPABASE_ANON_KEY'),
+      url: SupabaseConfig.url,
+      anonKey: SupabaseConfig.anonKey,
     );
+  } else {
+    assert(false, 'SUPABASE_URL not set — run with --dart-define-from-file=.env');
   }
 
   runApp(
@@ -30,6 +32,8 @@ void main() async {
             printProviderFailed: true,
             printProviderAdded: false,
             printProviderDisposed: false,
+            printStateFullData: false,
+            printFailFullData: false,
           ),
         ),
       ],
@@ -38,13 +42,13 @@ void main() async {
   );
 }
 
-class OwnUrTimeApp extends StatelessWidget {
+class OwnUrTimeApp extends ConsumerWidget {
   const OwnUrTimeApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp.router(
-      routerConfig: appRouter,
+      routerConfig: ref.watch(appRouterProvider),
       theme: AppTheme.light,
       debugShowCheckedModeBanner: false,
       localizationsDelegates: AppLocalizations.localizationsDelegates,

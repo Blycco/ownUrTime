@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-final appRouter = GoRouter(
-  routes: [
-    GoRoute(
-      path: '/',
-      builder: (context, state) => const _BootstrapScreen(),
-    ),
-  ],
+import 'package:ownurtime/core/l10n/app_localizations.dart';
+
+final appRouterProvider = Provider<GoRouter>(
+  (ref) => GoRouter(
+    routes: [
+      GoRoute(
+        path: '/',
+        builder: (context, state) => const _BootstrapScreen(),
+      ),
+    ],
+  ),
 );
 
 class _BootstrapScreen extends StatelessWidget {
@@ -15,9 +20,9 @@ class _BootstrapScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
-        child: Text('OwnUrTime'),
+        child: Text(AppLocalizations.of(context).appName),
       ),
     );
   }
