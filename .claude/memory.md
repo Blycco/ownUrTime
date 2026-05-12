@@ -2,6 +2,29 @@
 > Format: {date} | {completed} | {next} | {notes}
 > Most recent at top.
 
+## 2026-05-12 | Task 01 완료 — Supabase 스키마 + RLS + Edge Function
+
+- **Completed**:
+  1. 5개 마이그레이션: user_profiles, tasks, sessions, distractions, mood_checks (4-way split RLS + 인덱스)
+  2. 2개 보안 마이그레이션: add_constraints (CHECK 제약), security_fixes (ai_usage_log, H3/H4 수정)
+  3. decompose-task Edge Function: JWT 인증 → 서비스 롤 rate limit (ai_usage_log) → Gemini 2.5 Flash → 3단계 반환
+  4. flutter-reviewer HIGH 7개, MEDIUM 5개 발견 및 전부 수정
+  5. 브랜치 계층 규칙 문서화 (main/develop/feat/hotfix), Co-Authored-By 금지, /done 자동 제안 규칙 추가
+- **State**:
+  - Branch: `feat/project-bootstrap` (develop 머지 대기)
+  - 7개 마이그레이션 `supabase db reset` 전체 통과
+  - Edge Function curl 테스트 통과 (remaining_today: 9)
+  - `flutter analyze` zero warnings, `flutter test` 1 passed
+- **Known Limitations** (다음 태스크 전 처리 권장):
+  - `user_profiles.updated_at` 없음 (Phase 2 Realtime 시 추가)
+  - 프로필 자동 생성 트리거 없음 (Phase 2)
+  - CI Flutter 버전 미핀 + `flutter pub audit` 미적용
+  - `mood_checks` UPDATE RLS (PIPA 감도 데이터)
+- **Next**:
+  1. feat/project-bootstrap → develop 머지
+  2. Task 02: task feature 수직 슬라이스 (domain → InMemoryRepo → presentation → GoRouter)
+  3. Task 02 완료 후 RemoteTaskDataSource로 교체 (Supabase 연결)
+
 ## 2026-05-12 | Task 00 완료 — 의존성 설치 + 코어 인프라 구축
 
 - **Completed**:

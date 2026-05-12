@@ -2,6 +2,7 @@ import { serve } from "https://deno.land/std@0.208.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const DAILY_LIMIT = 10;
+const GEMINI_TIMEOUT_MS = 10_000;
 const GEMINI_API_URL =
   "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent";
 
@@ -40,15 +41,16 @@ serve(async (req: Request): Promise<Response> => {
     return jsonResponse({ error: "unauthorized" }, 401);
   }
 
-  const supabaseClient = createClient(
-    Deno.env.get("SUPABASE_URL") ?? "",
+  const supabaseUrl = Deno.env.get("SUPABASE_URL") ?? "";
+
+  const userClient = createClient(
+    supabaseUrl,
     Deno.env.get("SUPABASE_ANON_KEY") ?? "",
     { global: { headers: { Authorization: authHeader } } },
   );
 
   // Verify JWT and extract authenticated user
-  const { data: { user }, error: authError } = await supabaseClient.auth
-    .getUser();
+  const { data: { user }, error: authError } = await userClient.auth.getUser();
   if (authError || !user) {
     return jsonResponse({ error: "unauthorized" }, 401);
   }
@@ -70,16 +72,20 @@ serve(async (req: Request): Promise<Response> => {
   }
   const sanitizedTitle = task_title.replace(/[\x00-\x1F\x7F]/g, " ").trim();
 
-  // Rate limit: count today's AI decompositions (UTC midnight)
+  // Service role client: bypasses RLS for server-controlled rate limiting
+  const serviceClient = createClient(
+    supabaseUrl,
+    Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
+  );
+
   const todayMidnight = new Date();
   todayMidnight.setUTCHours(0, 0, 0, 0);
 
-  const { count, error: countError } = await supabaseClient
-    .from("tasks")
+  const { count, error: countError } = await serviceClient
+    .from("ai_usage_log")
     .select("id", { count: "exact", head: true })
     .eq("user_id", user.id)
-    .not("decomposed_steps", "is", null)
-    .gte("created_at", todayMidnight.toISOString());
+    .gte("called_at", todayMidnight.toISOString());
 
   if (countError) {
     console.error("Rate limit query error:", countError.message);
@@ -103,10 +109,14 @@ serve(async (req: Request): Promise<Response> => {
   const prompt =
     `Break this task into exactly 3 short, actionable steps. Return only the 3 steps, one per line, without numbering or bullet points:\n${sanitizedTitle}`;
 
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), GEMINI_TIMEOUT_MS);
+
   let geminiRes: Response;
   try {
     geminiRes = await fetch(GEMINI_API_URL, {
       method: "POST",
+      signal: controller.signal,
       headers: {
         "Content-Type": "application/json",
         "x-goog-api-key": geminiApiKey,
@@ -116,8 +126,13 @@ serve(async (req: Request): Promise<Response> => {
         generationConfig: { temperature: 0.3, maxOutputTokens: 500 },
       }),
     });
-  } catch {
+  } catch (e) {
+    if ((e as Error).name === "AbortError") {
+      return jsonResponse({ error: "ai_service_timeout" }, 504);
+    }
     return jsonResponse({ error: "ai_service_unavailable" }, 503);
+  } finally {
+    clearTimeout(timeoutId);
   }
 
   if (!geminiRes.ok) {
@@ -138,6 +153,15 @@ serve(async (req: Request): Promise<Response> => {
   if (steps.length < 3) {
     console.error("Gemini returned fewer than 3 steps");
     return jsonResponse({ error: "ai_parse_error" }, 502);
+  }
+
+  // Log usage server-side (service role bypasses RLS)
+  const { error: logError } = await serviceClient
+    .from("ai_usage_log")
+    .insert({ user_id: user.id, function_name: "decompose-task" });
+
+  if (logError) {
+    console.error("Failed to log AI usage:", logError.message);
   }
 
   return jsonResponse(

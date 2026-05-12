@@ -18,7 +18,9 @@ void main() async {
       anonKey: SupabaseConfig.anonKey,
     );
   } else {
-    assert(false, 'SUPABASE_URL not set — run with --dart-define-from-file=.env');
+    throw StateError(
+      'SUPABASE_URL not set — run with --dart-define-from-file=.env',
+    );
   }
 
   runApp(
