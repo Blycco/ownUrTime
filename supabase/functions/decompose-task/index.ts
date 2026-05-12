@@ -7,7 +7,6 @@ const GEMINI_API_URL =
 
 interface RequestBody {
   task_title: string;
-  user_id: string;
 }
 
 interface GeminiCandidate {
@@ -61,15 +60,15 @@ serve(async (req: Request): Promise<Response> => {
     return jsonResponse({ error: "invalid_request_body" }, 400);
   }
 
-  const { task_title, user_id } = body;
-  if (!task_title || typeof task_title !== "string" || !user_id) {
+  const { task_title } = body;
+  if (!task_title || typeof task_title !== "string") {
     return jsonResponse({ error: "missing_required_fields" }, 400);
   }
 
-  // Prevent user_id spoofing
-  if (user_id !== user.id) {
-    return jsonResponse({ error: "forbidden" }, 403);
+  if (task_title.length > 500) {
+    return jsonResponse({ error: "task_title_too_long" }, 400);
   }
+  const sanitizedTitle = task_title.replace(/[\x00-\x1F\x7F]/g, " ").trim();
 
   // Rate limit: count today's AI decompositions (UTC midnight)
   const todayMidnight = new Date();
@@ -102,13 +101,16 @@ serve(async (req: Request): Promise<Response> => {
   }
 
   const prompt =
-    `Break this task into exactly 3 short, actionable steps. Return only the 3 steps, one per line, without numbering or bullet points:\n${task_title}`;
+    `Break this task into exactly 3 short, actionable steps. Return only the 3 steps, one per line, without numbering or bullet points:\n${sanitizedTitle}`;
 
   let geminiRes: Response;
   try {
-    geminiRes = await fetch(`${GEMINI_API_URL}?key=${geminiApiKey}`, {
+    geminiRes = await fetch(GEMINI_API_URL, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "x-goog-api-key": geminiApiKey,
+      },
       body: JSON.stringify({
         contents: [{ parts: [{ text: prompt }] }],
         generationConfig: { temperature: 0.3, maxOutputTokens: 500 },
