@@ -29,6 +29,10 @@ Thumbs.db
 build/
 coverage/
 
+# Supabase local secrets
+supabase/functions/.env
+supabase/.env
+
 # Generated platform artifacts
 ios/Pods/
 ios/Runner.xcworkspace/
