@@ -51,6 +51,20 @@
 
 ---
 
+## develop 머지 → 즉시 push
+
+`develop` 브랜치로 머지가 완료되면 **즉시** `git push origin develop`을 실행한다.  
+머지와 push는 한 단위다 — 머지 후 push 없이 멈추는 것은 미완료 상태.
+
+```bash
+git merge --no-ff {branch} -m "Merge {branch}: ..." && git push origin develop
+```
+
+`git push` 실패 시 사용자에게 즉시 보고하고 중단.  
+**금지**: 머지 후 "나중에 push하겠다"는 판단.
+
+---
+
 ## Approval Gate — 커밋/푸시
 
 커밋 전 반드시:
