@@ -4,12 +4,9 @@
 ---
 
 ## Project Overview
-External Scaffolding app for adults with ADHD traits ("착수·유지·복귀" — initiation, maintenance, recovery).
-The app supplies structure so execution happens via architecture, not willpower.
-- **Stage**: MVP (Phase 1 in development)
-- **Developer**: Solo (design + dev + product)
-- **Platform**: iPhone + Mac first → iPad → Android → Windows → Web
-- **Market**: Korea launch first → English-speaking markets
+External Scaffolding app for adults with ADHD ("착수·유지·복귀" — initiation, maintenance, recovery).
+- **Stage**: MVP (Phase 1) | **Platform**: iPhone + Mac first → iPad → Android → Windows → Web
+- **Market**: Korea launch first | **Developer**: Solo
 - **Last Session**: `.claude/memory.md`
 
 ---
@@ -29,30 +26,13 @@ Push            APNs (iOS/macOS) / FCM (Android, Phase 3+)
 ---
 
 ## Agent Division of Labor
-| Agent | Owns |
-|-------|------|
-| **Claude Code (me)** | Architecture design, complex business logic, project context, final PR review |
-| **Codex CLI** | Function implementations, widget boilerplate, test generation, code review |
+| Agent | Tool | Owns |
+|-------|------|------|
+| **Claude Code** | direct | Architecture, interfaces, security/RLS, final PR |
+| **Codex** | `codex exec "..."` | Implementation, tests, boilerplate, code review |
+| **Gemini** | `gemini -p "..."` | Research, doc lookup, tech comparisons |
 
-Delegate to Codex: `/codex {task}` → generates prompt → run in Codex CLI terminal
-
-### Orchestration & Exception Rule
-- Default mode: Claude Code orchestrates, Codex executes implementation-heavy loops.
-- Final decision authority: user.
-- Claude Code ownership: architecture changes, cross-feature refactors, product/security decisions, final merge judgment.
-- Codex ownership: bounded implementation, test generation, structured file edits, fast fix loops.
-- User override: if user explicitly requests, either agent may take the other side's scope (e.g., token budget, availability, speed).
-- Override precedence: newest explicit user instruction wins for that task.
-
-### Approval Gate (Critical)
-- Important decisions and high-impact work require user approval first.
-- Execution model: propose first, execute only after explicit user approval.
-- Applies to architecture changes, dependency changes, policy/security decisions, destructive actions, and release-impacting changes.
-- If approval is not explicit, stop at proposal/checklist and wait.
-- Communication flow template:
-  1. Proposal (understanding + plan + risks + approval request)
-  2. Execute after approval
-  3. Report (what changed + validation + next decisions)
+> Details → `.claude/rules/codex-gemini-workflow.md`
 
 ---
 
@@ -67,8 +47,7 @@ RULE 06  l10n required — no hardcoded Korean strings; use ARB files
 RULE 07  Never show "how much wasn't done" — only "how much was done"
 RULE 08  No ad code ever (permanent policy)
 RULE 09  Zero flutter analyze warnings
-RULE 10  Widget tests required (key screens); unit tests required (business logic)
-RULE 10A Commit gate requires build verification (`flutter build ios --simulator --debug` and `flutter build macos --debug`) when toolchain is available
+RULE 10  Widget/unit tests required; build gate before merge: flutter build ios + macos --debug (when toolchain available)
 RULE 11  ADHD UX: minimize initiation barrier, no forced input, first action = 1 tap
 RULE 12  Guest mode first — no forced login before 3rd session completion
 RULE 13  i18n structure from Phase 1 — actual translations in Phase 4
@@ -80,41 +59,11 @@ RULE 16  Codex-labeled task items: generate /codex prompt first, no implementati
 ---
 
 ## Branch & Commit Rules
+`main` ← `develop` ← `feat/fix/chore/*` (Claude Code on feat/fix/chore only; direct commits to develop/main prohibited)
+`hotfix/*` branches from `main`, merges to both `main` + `develop`.
 
-### Branch Hierarchy
-```
-main
- └─ develop          ← Top of active development. All task branches merge here.
-     ├─ feat/{description}    ← Feature implementation
-     ├─ fix/{description}     ← Bug fixes
-     ├─ chore/{description}   ← Config, rules, infrastructure
-     └─ hotfix/{description}  ← Emergency fix (branch from main, merge to main + develop)
-```
-
-**Rules:**
-- `main` — production. User commits/merges only. Claude Code direct commits prohibited.
-- `develop` — development top. On task completion, feat/* merges here (check conflicts).
-- All feat/fix/chore branches fork from `develop` and merge back to `develop`.
-- `hotfix/*` forks from `main`, merges to both `main` + `develop` on completion.
-- Claude Code works on feat/fix/chore branches only. Direct commits to develop/main prohibited.
-
-### Commit Format
-```
-Commit format (Korean body — developer preference):
-  Feat: 한국어로 작업 요약
-  - 세부 내용 1
-  - 세부 내용 2
-  Ref: #{issue}
-
-Types: Feat | Fix | Perf | Refactor | Test | Docs | Chore
-```
-
-- Do not create micro-commits for tiny iterative steps.
-- For `feat/refactor/chore/test/docs`, commit only when the change forms a meaningful unit.
-- Multiple files changed in one commit is acceptable when they represent one coherent objective.
-- Before opening PR or merging, squash noisy history and keep a concise, meaningful commit set.
-- `fix/*` may be small and fast, but must still include reproducible context and validation.
-- **Prohibited**: Adding `Co-Authored-By:` line to commit messages. Do not identify Claude Code as author in commit messages.
+Commit format: `Feat/Fix/Perf/Refactor/Test/Docs/Chore: 한국어 요약`
+- One commit per coherent objective; no micro-commits; no `Co-Authored-By:` line
 
 ---
 
@@ -153,8 +102,6 @@ Start a feature: `/new-task {feature}` → reads tasks/phase1/{N}-feature-{name}
 | Arch decision | inside `/done` | `docs/decisions/{date}-{title}.md` |
 | Bug found | inside `/done` or anytime | `docs/bugs/{date}-{slug}.md` |
 
-Templates: `.claude/templates/` — feature-report, qa-report, phase-summary, adr, bug-report, db-design, api-spec, test-result
-
 ## Design & Test Documents
 | Change type | Update target |
 |------------|--------------|
@@ -168,11 +115,6 @@ Templates: `.claude/templates/` — feature-report, qa-report, phase-summary, ad
 - `/agent codex-implementer` — bounded implementation, tests, fast execution loops
 - `/agent flutter-reviewer` — before PR merge (architecture + Riverpod + security)
 - `/tdd` — starting a new feature or bug fix
-
 ## Done Criteria
-1. `flutter analyze` clean; relevant tests pass
-2. flutter-reviewer agent review complete — fix issues, present results to user
-3. Explicit user approval before commit (Approval Gate required)
-4. `.claude/memory.md` updated; feature report filed via `/done`
-
-> Detailed /done execution order → `.claude/rules/process-workflow.md`
+`flutter analyze` clean → tests pass → flutter-reviewer → user approval → commit
+> Full order → `.claude/rules/process-workflow.md`
