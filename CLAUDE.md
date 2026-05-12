@@ -152,7 +152,15 @@ Start a feature: `/new-task {feature}` → reads tasks/phase1/{N}-feature-{name}
 | Arch decision | inside `/done` | `docs/decisions/{date}-{title}.md` |
 | Bug found | inside `/done` or anytime | `docs/bugs/{date}-{slug}.md` |
 
-Templates: `.claude/templates/` — feature-report, qa-report, phase-summary, adr, bug-report
+Templates: `.claude/templates/` — feature-report, qa-report, phase-summary, adr, bug-report, db-design, api-spec, test-result
+
+## Design & Test Documents
+| 변경 유형 | 업데이트 대상 |
+|----------|-------------|
+| DB 스키마 변경 (테이블/컬럼/RLS/인덱스) | `docs/04_design/db-design.md` |
+| Edge Function 추가/변경 | `docs/04_design/api-spec.md` |
+| 시스템 아키텍처 변경 | `docs/04_design/architecture.md` |
+| 태스크 완료 시 | `docs/05_test_results/integration/{NN}-{name}.md` 추가 |
 
 ## Agents & Skills
 - `/agent claude-architect` — orchestration, architecture ownership, final decision
