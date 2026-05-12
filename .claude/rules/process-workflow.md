@@ -52,17 +52,18 @@ Same as the hard blocker checks, plus:
 
 ---
 
-## develop merge → push immediately
+## feat/* → develop: PR 경유
 
-When a merge into `develop` completes, run `git push origin develop` **immediately**.  
-Merge and push are one unit — stopping after merge without pushing is an incomplete state.
+feat/fix/chore 브랜치는 직접 `git merge` 금지 — PR 경유 필수 (변경 기록 문서화 목적).
 
 ```bash
-git merge --no-ff {branch} -m "Merge {branch}: ..." && git push origin develop
+gh pr create --base develop --title "{branch}: {한국어 요약}" \
+  --body "변경 내용: {요약}\nQA: analyze clean / test passed / flutter-reviewer {결과}"
+gh pr merge --merge --delete-branch
 ```
 
-If `git push` fails (conflict, auth, etc.), report to user immediately and stop.  
-**Prohibited**: deciding to "push later" after a merge.
+PR 머지 시 push 자동 완료.  
+**Prohibited**: `git merge` 직접 실행으로 develop 변경.
 
 ---
 
@@ -85,21 +86,21 @@ Wait for explicit "yes" / "go ahead" / "OK" from the user before executing.
 
 ---
 
+## Task Start — GitHub Issue
+
+태스크 시작 시 GitHub 이슈 생성 후 태스크 파일 헤더에 번호 기록.
+
+```bash
+gh issue create --title "{task name}" --body "{brief description}"
+```
+
+해당 태스크의 모든 커밋: `Ref: #{issue}` 필수. PR body에도 이슈 번호 포함.
 ## /done Proactive Suggestion
 
-When a task appears complete, Claude Code must proactively suggest — do not wait for the user to call `/done`:
+태스크 완료 감지 시 사용자 호출 전에 먼저 제안 — 기다리지 말 것.
 
-```
-The task appears complete. Shall I run `/done`?
-(flutter analyze → test → secret scan → flutter-reviewer → report → commit approval)
-```
-
-**Timing:**
-- Immediately after implementation + validation (curl/build/etc.) are both done
-- When user signals "done", "complete", "next"
-- When next task comes up but current task hasn't been committed yet
-
-**Prohibited**: waiting for the user to call `/done`.
+Triggers: 구현+검증 완료 직후; 사용자가 "done"/"완료"/"다음" 신호; 현재 태스크 미커밋 상태에서 다음 태스크 시작.  
+**Prohibited**: 사용자가 `/done` 호출할 때까지 대기.
 
 ---
 
@@ -126,5 +127,4 @@ Stop and verify rule compliance in these situations:
 - About to run a commit command → have all 5 hard blockers been cleared?
 - Thought of "let me finish this quickly" → check rationalization pattern list
 - About to proceed without user approval
-- Task file assigns item to Codex but Claude Code is implementing it → stop immediately, switch to writing /codex prompt
-- Task file has Codex items but /codex has not been called yet → run Pre-work Gate
+- Task file has Codex items → stop, write /codex prompt first; do not implement directly

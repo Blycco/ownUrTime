@@ -3,12 +3,12 @@
 > PRD ref: Section 16 (tech stack), .claude/context/folder-structure.md (schema)
 
 ## Setup
-- [ ] Install Supabase CLI: `brew install supabase/tap/supabase`
-- [ ] `supabase init` in project root
-- [ ] `supabase start` — local dev instance running
+- [x] Install Supabase CLI: `brew install supabase/tap/supabase`
+- [x] `supabase init` in project root
+- [x] `supabase start` — local dev instance running
 
 ## Migrations (supabase/migrations/)
-- [ ] `20260511_01_user_profiles.sql`
+- [x] `20260511_01_user_profiles.sql`
   ```sql
   CREATE TABLE user_profiles (
     id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
@@ -22,7 +22,7 @@
     USING (auth.uid() = id) WITH CHECK (auth.uid() = id);
   ```
 
-- [ ] `20260511_02_tasks.sql`
+- [x] `20260511_02_tasks.sql`
   ```sql
   CREATE TABLE tasks (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -39,7 +39,7 @@
     USING (auth.uid() = user_id) WITH CHECK (auth.uid() = user_id);
   ```
 
-- [ ] `20260511_03_sessions.sql`
+- [x] `20260511_03_sessions.sql`
   ```sql
   CREATE TABLE sessions (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -58,7 +58,7 @@
     USING (auth.uid() = user_id) WITH CHECK (auth.uid() = user_id);
   ```
 
-- [ ] `20260511_04_distractions.sql`
+- [x] `20260511_04_distractions.sql`
   ```sql
   CREATE TABLE distractions (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -73,7 +73,7 @@
     USING (auth.uid() = user_id) WITH CHECK (auth.uid() = user_id);
   ```
 
-- [ ] `20260511_05_mood_checks.sql`
+- [x] `20260511_05_mood_checks.sql`
   ```sql
   CREATE TABLE mood_checks (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -88,15 +88,15 @@
   ```
 
 ## Edge Function: decompose-task
-- [ ] Create supabase/functions/decompose-task/index.ts
-- [ ] Accept: `{ task_title: string, user_id: string }`
-- [ ] Rate limit: query tasks table for today's AI decomposition count; block if ≥ 10
-- [ ] Call Gemini Flash 2.0 API with prompt: "Break this task into exactly 3 actionable steps: {title}"
-- [ ] Return: `{ steps: string[], remaining_today: number }`
-- [ ] Error response for limit exceeded: `{ error: "daily_limit_reached", steps_used: 10 }`
+- [x] Create supabase/functions/decompose-task/index.ts
+- [x] Accept: `{ task_title: string, user_id: string }`
+- [x] Rate limit: query tasks table for today's AI decomposition count; block if ≥ 10
+- [x] Call Gemini Flash 2.0 API with prompt: "Break this task into exactly 3 actionable steps: {title}"
+- [x] Return: `{ steps: string[], remaining_today: number }`
+- [x] Error response for limit exceeded: `{ error: "daily_limit_reached", steps_used: 10 }`
 
 ## Verify
-- [ ] `supabase db reset` — all migrations apply cleanly
-- [ ] `supabase functions serve decompose-task` — function responds locally
-- [ ] Test RLS: query tasks as different user → returns empty
-- [ ] Push to Supabase cloud project: `supabase db push` + `supabase functions deploy decompose-task`
+- [x] `supabase db reset` — all migrations apply cleanly
+- [x] `supabase functions serve decompose-task` — function responds locally
+- [x] Test RLS: query tasks as different user → returns empty
+- [x] Push to Supabase cloud project: `supabase db push` + `supabase functions deploy decompose-task`

@@ -63,7 +63,7 @@ RULE 16  Codex-labeled task items: generate /codex prompt first, no implementati
 `hotfix/*` branches from `main`, merges to both `main` + `develop`.
 
 Commit format: `Feat/Fix/Perf/Refactor/Test/Docs/Chore: 한국어 요약`
-- One commit per coherent objective; no micro-commits; no `Co-Authored-By:` line
+- One commit per coherent objective; no micro-commits; no `Co-Authored-By:` line; `Ref: #{issue}` 필수
 
 ---
 
