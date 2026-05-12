@@ -81,62 +81,7 @@ Wait for explicit "yes" / "go ahead" / "OK" from the user before executing.
 **Prohibited**: auto-committing because checks passed.  
 **Prohibited**: bundling "shall I commit?" and the commit execution in the same message.
 
----
-
-## Codex Role Boundary — Delegation Criteria
-
-### Claude Code owns (Orchestrator)
-- Architecture decisions and changes
-- Domain entities / interfaces / UseCase design
-- Cross-feature refactors
-- Security, data, and RLS decisions
-- Final PR review and merge judgment
-- Review and integration of Codex output
-
-### Codex owns (Implementer + QA)
-- Widget implementation / boilerplate
-- Repository implementation (data layer)
-- DataSource implementation
-- Test generation (unit / widget)
-- Code review and bug flagging
-- Config file edits
-- Package installation and simple file edits
-
-### ⛔ Task Start = /codex First — Hard Blocker
-
-If the task file has **any** item labeled `Codex`:
-
-```
-[ ] 1. Identify Claude Code items (interfaces / entities / architecture)
-[ ] 2. Identify Codex items (implementation / tests / boilerplate)
-[ ] 3. Write /codex prompt and hand off to user ← must stop here
-[ ] 4. Receive Codex output after user runs Codex CLI
-[ ] 5. Then start Claude Code items
-```
-
-**Writing even one line of code in a Codex-labeled item is a rule violation.**  
-"Just a draft", "just the interface", "just the skeleton" — all count as implementation. /codex first.
-
-### After Receiving Codex Output — Claude Code Review
-
-After Codex finishes, Claude Code must:
-1. `flutter analyze` — zero warnings
-2. Verify domain interface ↔ implementation alignment
-3. If items are missing: re-delegate via `/codex` or report to user
-
-### ⛔ Codex Rationalization Patterns — All Rejected
-
-| Rationalization | Why it's rejected |
-|-----------------|------------------|
-| "I'm faster than waiting for Codex" | Speed does not outrank collaboration rules |
-| "This file is simple enough to do myself" | Simplicity is not grounds for boundary violation |
-| "Writing a Codex prompt takes longer" | Writing the prompt IS Claude Code's design role |
-| "I'll write a draft and hand it to Codex" | A draft is implementation. Write /codex prompt first |
-| "I designed it, so implementing is efficient" | When design is done, stopping is Claude Code's role |
-
-### Boundary Violations
-Directly implementing Codex-owned items is prohibited regardless of reason.  
-Only exception: user explicitly says "Claude, do it directly."
+> Codex & Gemini workflow → `.claude/rules/codex-gemini-workflow.md`
 
 ---
 
