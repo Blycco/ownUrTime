@@ -74,6 +74,8 @@ RULE 12  Guest mode first — no forced login before 3rd session completion
 RULE 13  i18n structure from Phase 1 — actual translations in Phase 4
 RULE 14  Read relevant .claude/context/ files before starting any task
 RULE 15  Plan Mode required — run /plan before writing any code
+RULE 16  Codex-labeled task items: generate /codex prompt first, no implementation before Codex runs
+RULE 16  Codex-labeled task items: /codex prompt first, no implementation before Codex runs
 ```
 
 ---
