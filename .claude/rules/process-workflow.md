@@ -1,186 +1,185 @@
 # Process & Workflow Rules — Auto-loaded
-> 이 파일은 세션마다 자동 로드됩니다. 모든 규칙은 MUST이며 예외 없음.
+> Loaded every session. All rules are MUST — no exceptions.
 
 ---
 
-## ⛔ 커밋 전 하드 블로커 — 예외 없음
+## ⛔ Pre-commit Hard Blockers — No Exceptions
 
-다음 5개 체크를 **순서대로 모두** 통과하지 않으면 커밋 명령을 실행할 수 없다.
-"소규모 수정", "긴급", "자동화 체크 통과", "이미 아는 코드", "이전에 리뷰했음" — 모두 예외 아님.
+All 5 checks must pass **in order** before any commit command is executed.
+"Small fix", "urgent", "CI passed", "I know this code", "already reviewed" — none are exceptions.
 
 ```
-[ ] 1. flutter analyze        → zero warnings 확인
-[ ] 2. flutter test           → all passed 확인
+[ ] 1. flutter analyze        → zero warnings
+[ ] 2. flutter test           → all passed
 [ ] 3. Secret scan            → grep -rn "sk-\|apiKey.*=.*['\"]" --include="*.dart" lib/
-[ ] 4. flutter-reviewer 에이전트 실행 → 결과 캡처 (이슈 없어도 "이슈 없음" 보고)
-[ ] 5. 사용자에게 1~4 전체 결과 제시 + 명시적 승인 대기
+[ ] 4. Run flutter-reviewer agent → capture full output (report "no issues" if clean)
+[ ] 5. Present results 1–4 to user + wait for explicit approval
 ```
 
-**5번이 완료되기 전에는 git commit 명령을 절대 실행하지 않는다.**
+**Do not execute `git commit` until step 5 is complete.**
 
 ---
 
-## ⛔ 흔한 합리화 패턴 — 모두 거부됨
+## ⛔ Common Rationalization Patterns — All Rejected
 
-아래 생각이 드는 순간 즉시 멈추고 블로커 체크로 돌아갈 것:
+Stop immediately when any of these thoughts arise. Return to the hard blocker checklist.
 
-| 합리화 | 왜 거부되는가 |
-|--------|-------------|
-| "분석/테스트 통과했으니 됐다" | flutter-reviewer는 자동화 체크가 잡지 못하는 설계·보안 이슈를 잡는다 |
-| "이건 작은 수정이라 reviewer 불필요" | 이번 세션에서 작은 수정으로 분류했다가 HIGH 3개가 나왔다 |
-| "긴급 수정이라 빠르게 넘어가야 한다" | 긴급할수록 실수 가능성이 높다. 블로커는 단축 불가 |
-| "사용자가 이미 플랜을 승인했다" | 플랜 승인 ≠ 커밋 승인. 결과 보고 후 별도 승인 필요 |
-| "이미 다 아는 코드라 리뷰 의미 없다" | 리뷰는 "모르는 것 발견"이 아니라 "놓친 것 발견"이 목적이다 |
-| "커밋 후 바로 수정하면 된다" | 커밋은 히스토리에 남는다. 미수정 커밋을 만들지 않는다 |
-| "Codex 담당인데 내가 빠르니까 직접 한다" | Codex를 안 쓰는 것 자체가 위반이다. Pre-work Gate로 돌아갈 것 |
+| Rationalization | Why it's rejected |
+|-----------------|------------------|
+| "analyze/test passed, that's enough" | flutter-reviewer catches design & security issues automation misses |
+| "it's a small fix, reviewer not needed" | A "small fix" this session produced 3 HIGH issues |
+| "it's urgent, move fast" | Urgency increases error risk. Blockers cannot be shortened |
+| "user already approved the plan" | Plan approval ≠ commit approval. Report results first, get separate approval |
+| "I know this code, review is pointless" | Review finds what you *missed*, not what you *don't know* |
+| "I'll fix it right after committing" | Commits are permanent history. Don't create unfixed commits |
+| "It's Codex work but I'm faster, I'll do it" | Not using Codex is itself a violation. Return to Pre-work Gate |
 
 ---
 
-## /done 실행 순서
+## /done Execution Order
 
-위의 하드 블로커 체크와 동일하며, 추가로:
+Same as the hard blocker checks, plus:
 
-1. flutter analyze → 결과 캡처
-2. flutter test → 결과 캡처
+1. flutter analyze → capture output
+2. flutter test → capture output
 3. Secret scan
-4. **flutter-reviewer 에이전트 실행** (결과 전문 캡처)
-5. 발견된 이슈 수정 (있는 경우) → 수정 후 1~4 재실행
-6. 사용자에게 1~5 전체 결과 제시 + 승인 요청 ← **반드시 멈출 것**
-7. 명시적 승인 확인 후 커밋
+4. **Run flutter-reviewer agent** (capture full output)
+5. Fix found issues (if any) → re-run steps 1–4 after fixes
+6. Present steps 1–5 results to user + request approval ← **must stop here**
+7. Confirm explicit approval, then commit
 
-**6단계와 7단계는 절대 같은 메시지에 묶지 않는다.**
+**Steps 6 and 7 must never be bundled into the same message.**
 
 ---
 
-## develop 머지 → 즉시 push
+## develop merge → push immediately
 
-`develop` 브랜치로 머지가 완료되면 **즉시** `git push origin develop`을 실행한다.  
-머지와 push는 한 단위다 — 머지 후 push 없이 멈추는 것은 미완료 상태.
+When a merge into `develop` completes, run `git push origin develop` **immediately**.  
+Merge and push are one unit — stopping after merge without pushing is an incomplete state.
 
 ```bash
 git merge --no-ff {branch} -m "Merge {branch}: ..." && git push origin develop
 ```
 
-`git push` 실패 시 사용자에게 즉시 보고하고 중단.  
-**금지**: 머지 후 "나중에 push하겠다"는 판단.
+If `git push` fails (conflict, auth, etc.), report to user immediately and stop.  
+**Prohibited**: deciding to "push later" after a merge.
 
 ---
 
-## Approval Gate — 커밋/푸시
+## Approval Gate — Commit/Push
 
-커밋 전 반드시:
+Before committing, always present:
 ```
-"다음 파일들을 커밋합니다:
-  - [파일 목록]
-커밋 메시지: [메시지]
-QA 결과: [요약]
-승인하시겠습니까?"
+"Committing the following files:
+  - [file list]
+Commit message: [message]
+QA result: [summary]
+Do you approve?"
 ```
-형태로 제시하고, 사용자의 명시적 "예" / "진행해" / "OK" 등을 확인한 후 실행.
+Wait for explicit "yes" / "go ahead" / "OK" from the user before executing.
 
-**금지**: 체크 결과가 통과했다고 자동으로 커밋하는 것.
-**금지**: "커밋하시겠습니까?"와 커밋 실행을 같은 메시지에 묶는 것.
+**Prohibited**: auto-committing because checks passed.  
+**Prohibited**: bundling "shall I commit?" and the commit execution in the same message.
 
 ---
 
-## Codex 역할 경계 — 위임 판단 기준
+## Codex Role Boundary — Delegation Criteria
 
-### Claude Code 담당 (오케스트레이터)
-- 아키텍처 결정 및 변경
-- 도메인 엔티티 / 인터페이스 / UseCase 설계
-- 크로스피처 리팩터
-- 보안·데이터·RLS 판단
-- 최종 PR 리뷰 및 머지 판단
-- Codex 결과물 검토 및 통합
+### Claude Code owns (Orchestrator)
+- Architecture decisions and changes
+- Domain entities / interfaces / UseCase design
+- Cross-feature refactors
+- Security, data, and RLS decisions
+- Final PR review and merge judgment
+- Review and integration of Codex output
 
-### Codex 담당 (구현 + QA)
-- 위젯 구현 / 보일러플레이트
-- Repository implementation (data 레이어)
+### Codex owns (Implementer + QA)
+- Widget implementation / boilerplate
+- Repository implementation (data layer)
 - DataSource implementation
-- 테스트 생성 (unit / widget)
-- 코드 리뷰 및 버그 플래그
-- 설정 파일 편집
-- 패키지 설치 및 단순 파일 편집
+- Test generation (unit / widget)
+- Code review and bug flagging
+- Config file edits
+- Package installation and simple file edits
 
-### ⛔ 태스크 시작 = /codex 먼저 — 하드 블로커
+### ⛔ Task Start = /codex First — Hard Blocker
 
-태스크 파일에 `Codex` 레이블 항목이 하나라도 있으면:
+If the task file has **any** item labeled `Codex`:
 
 ```
-[ ] 1. Claude Code 담당 항목 목록 확인 (인터페이스/엔티티/아키텍처)
-[ ] 2. Codex 담당 항목 목록 확인 (구현/테스트/보일러플레이트)
-[ ] 3. /codex 프롬프트 작성 후 사용자에게 전달 ← 반드시 멈출 것
-[ ] 4. 사용자가 Codex CLI 실행 완료 후 결과 수령
-[ ] 5. 그 후 Claude Code 담당 항목 작업 시작
+[ ] 1. Identify Claude Code items (interfaces / entities / architecture)
+[ ] 2. Identify Codex items (implementation / tests / boilerplate)
+[ ] 3. Write /codex prompt and hand off to user ← must stop here
+[ ] 4. Receive Codex output after user runs Codex CLI
+[ ] 5. Then start Claude Code items
 ```
 
-**Claude Code가 Codex 항목에 코드를 한 줄이라도 쓰기 시작하면 규칙 위반이다.**  
-"일단 초안", "인터페이스만", "뼈대만" — 모두 구현이다. /codex 먼저.
+**Writing even one line of code in a Codex-labeled item is a rule violation.**  
+"Just a draft", "just the interface", "just the skeleton" — all count as implementation. /codex first.
 
-### Codex 결과 수령 후 Claude Code 검토
+### After Receiving Codex Output — Claude Code Review
 
-Codex 작업 완료 후 Claude Code가 반드시:
-1. `flutter analyze` — zero warnings 확인
-2. domain 인터페이스 ↔ 구현체 일치 여부 확인
-3. 누락 항목 있으면 보완 `/codex` 재위임 또는 사용자 보고
+After Codex finishes, Claude Code must:
+1. `flutter analyze` — zero warnings
+2. Verify domain interface ↔ implementation alignment
+3. If items are missing: re-delegate via `/codex` or report to user
 
-### ⛔ Codex 관련 합리화 패턴 — 모두 거부됨
+### ⛔ Codex Rationalization Patterns — All Rejected
 
-| 합리화 | 왜 거부되는가 |
-|--------|-------------|
-| "Codex 기다리는 것보다 내가 빠르다" | 속도가 협업 규칙보다 우선순위 높지 않다 |
-| "이 파일은 간단해서 직접 해도 된다" | 단순함은 경계 침범의 이유가 아니다 |
-| "Codex 프롬프트 짜는 게 더 오래 걸린다" | 프롬프트 작성 = Claude Code의 설계 역할이다 |
-| "일단 초안만 짜고 Codex한테 넘긴다" | 초안도 구현이다. /codex 프롬프트 먼저 |
-| "이미 설계했으니 구현도 내가 하면 효율적이다" | 설계가 끝나면 멈추는 것이 Claude Code의 역할이다 |
+| Rationalization | Why it's rejected |
+|-----------------|------------------|
+| "I'm faster than waiting for Codex" | Speed does not outrank collaboration rules |
+| "This file is simple enough to do myself" | Simplicity is not grounds for boundary violation |
+| "Writing a Codex prompt takes longer" | Writing the prompt IS Claude Code's design role |
+| "I'll write a draft and hand it to Codex" | A draft is implementation. Write /codex prompt first |
+| "I designed it, so implementing is efficient" | When design is done, stopping is Claude Code's role |
 
-### 경계 침범 시 처리
-Codex 담당 항목을 직접 구현하는 것은 사유를 불문하고 금지.  
-유일한 예외: 사용자가 명시적으로 "Claude가 직접 해줘"라고 요청한 경우.
+### Boundary Violations
+Directly implementing Codex-owned items is prohibited regardless of reason.  
+Only exception: user explicitly says "Claude, do it directly."
 
 ---
 
-## /done 자동 제안 — 태스크 완료 시
+## /done Proactive Suggestion
 
-태스크가 완료됐다고 판단되는 시점에 사용자가 `/done`을 호출하지 않아도,
-Claude Code가 먼저 다음 형태로 제안해야 한다:
+When a task appears complete, Claude Code must proactively suggest — do not wait for the user to call `/done`:
 
 ```
-태스크가 완료된 것 같습니다. `/done`을 실행할까요?
-(flutter analyze → test → secret scan → flutter-reviewer → 결과 보고 → 커밋 승인 순서로 진행합니다)
+The task appears complete. Shall I run `/done`?
+(flutter analyze → test → secret scan → flutter-reviewer → report → commit approval)
 ```
 
-**제안 타이밍:**
-- 기능 구현 + 검증(curl/빌드 등)이 모두 완료된 직후
-- 사용자가 "됐다", "완료", "다음으로" 같은 신호를 보낼 때
-- 커밋을 아직 안 했는데 다음 태스크 얘기가 나올 때
+**Timing:**
+- Immediately after implementation + validation (curl/build/etc.) are both done
+- When user signals "done", "complete", "next"
+- When next task comes up but current task hasn't been committed yet
 
-**금지**: 사용자가 `/done`을 부를 때까지 기다리는 것.
-
----
-
-## 세션 시작 시 필수 확인
-
-매 세션 첫 작업 전에 `.claude/memory.md`를 읽고, 현재 상태(브랜치, 완료 항목, 다음 단계)를
-텍스트로 한 줄 이상 출력한 뒤 작업을 시작할 것.
-memory.md 내용과 모순되는 판단을 내리면 안 됨.
+**Prohibited**: waiting for the user to call `/done`.
 
 ---
 
-## 컨텍스트 파일 읽기 (RULE 14 강화)
+## Session Start Checklist
 
-작업 시작 전 관련 `.claude/context/` 파일을 읽는 것에 더해,
-memory.md와 해당 task 파일(`.claude/tasks/phase1/{NN}-*.md`)을 반드시 읽을 것.
-
-task 파일 내용과 현재 상태를 비교해서 "이미 완료된 것"을 "해야 할 것"으로 착각하지 말 것.
+Before the first task of every session, read `.claude/memory.md` and output at least one line of text describing current state (branch, completed items, next step).  
+Do not make decisions that contradict memory.md contents.
 
 ---
 
-## 자기 점검 트리거
+## Context File Reading (RULE 14 enforcement)
 
-다음 상황에서는 작업을 멈추고 규칙 위반 여부를 점검할 것:
-- 커밋 명령을 치려는 순간 → 하드 블로커 5개 모두 완료됐는가?
-- "빠르게 끝내려면" 이라는 생각이 드는 순간 → 합리화 패턴 목록 확인
-- 사용자 승인 없이 다음 단계로 넘어가려는 순간
-- 플랜에 적힌 담당자가 Codex인데 내가 직접 구현하고 있는 순간 → 즉시 멈추고 /codex 프롬프트 작성으로 전환
-- 태스크 파일을 열었는데 Codex 항목이 있는데 /codex를 아직 안 호출했을 때 → Pre-work Gate 실행
+Before starting any task, in addition to reading relevant `.claude/context/` files:  
+- Read `memory.md`
+- Read the relevant task file (`.claude/tasks/phase1/{NN}-*.md`)
+
+Compare task file contents against current state — do not mistake "already done" for "to do."
+
+---
+
+## Self-Check Triggers
+
+Stop and verify rule compliance in these situations:
+- About to run a commit command → have all 5 hard blockers been cleared?
+- Thought of "let me finish this quickly" → check rationalization pattern list
+- About to proceed without user approval
+- Task file assigns item to Codex but Claude Code is implementing it → stop immediately, switch to writing /codex prompt
+- Task file has Codex items but /codex has not been called yet → run Pre-work Gate
