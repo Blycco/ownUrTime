@@ -143,4 +143,8 @@ Templates: `.claude/templates/` — feature-report, qa-report, phase-summary, ad
 - `/tdd` — starting a new feature or bug fix
 ## Done Criteria
 1. `flutter analyze` clean; relevant tests pass
-2. `.claude/memory.md` updated; feature report filed via `/done`
+2. `flutter-reviewer` 에이전트로 코드 리뷰 완료 — 이슈 수정 후 결과 사용자에게 제시
+3. 사용자 명시적 승인 후 커밋 (Approval Gate 필수)
+4. `.claude/memory.md` updated; feature report filed via `/done`
+
+> 자세한 /done 실행 순서 → `.claude/rules/process-workflow.md`

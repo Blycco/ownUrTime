@@ -45,9 +45,13 @@ paths:
 - Check `context.mounted` after every `await` in Flutter widgets
 
 ## Imports
-- `package:` imports only — no relative imports
+- `package:` imports only — **no relative imports, ever**
+  - ✅ `import 'package:ownurtime/core/logging/logger_service.dart';`
+  - ❌ `import 'log_context_provider.dart';`
+  - ❌ `import '../../core/router/app_router.dart';`
 - Order: `dart:` → external packages → internal packages
 - Remove unused imports
+- `always_use_package_imports: true` 를 `analysis_options.yaml`에 추가해 CI에서 강제할 것
 
 ## Code Generation (freezed / riverpod_generator)
 - Never manually edit generated files (`*.g.dart`, `*.freezed.dart`)
