@@ -2,6 +2,28 @@
 > Format: {date} | {completed} | {next} | {notes}
 > Most recent at top.
 
+## 2026-05-13 | Task 02 완료 — Task feature 수직 슬라이스
+
+- **Completed**:
+  1. domain: Task entity (freezed), TaskRepository interface, UseCase 3개 (get/create/decompose)
+  2. data: InMemoryTaskDataSource (AI limit counter 10→0 감소, DailyLimitException), TaskModel
+  3. presentation: TaskListScreen, TaskStartScreen, AiLimitIndicator, MicroStartButton, TaskCard, Riverpod providers
+  4. l10n: task 관련 ARB 키 추가, app_localizations 재생성
+  5. Router: /tasks, /tasks/start GoRoute 연결
+  6. Tests: 14/14 pass. flutter-reviewer HIGH 2개 수정 완료.
+  7. PR #4 → develop 머지 완료
+- **State**:
+  - Branch: `develop` (feat/feature-task 머지됨)
+  - `flutter analyze` zero warnings, `flutter test` 14/14
+  - iOS simulator + macOS debug build 통과
+- **Known Limitations**:
+  - InMemoryTaskDataSource — 앱 재시작 시 데이터/counter 초기화
+  - task_remote_datasource.dart — UnimplementedError stub (Phase 2에서 Supabase 연결)
+  - createTask 시 decomposedSteps 미전달 (Phase 2 범위)
+- **Next**:
+  - Task 03: Session Timer (TimerState sealed class, timer_provider, tick/pause/reset/distraction)
+  - 시작 전 읽기: .claude/context/adhd-domain.md, dart-patterns.md
+
 ## 2026-05-12 | Task 01 완료 — Supabase 스키마 + RLS + Edge Function
 
 - **Completed**:
