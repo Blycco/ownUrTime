@@ -1,5 +1,36 @@
 {
   "@@locale": "en",
   "appName": "OwnUrTime",
-  "bootstrapReady": "Ready"
+  "bootstrapReady": "Ready",
+
+  "taskListTitle": "Today's Tasks",
+  "taskListError": "Please try again later",
+  "taskListStartFab": "Start",
+  "taskListEmptyHeadline": "Start your first task today",
+  "taskListEmptySubtitle": "Two minutes is all you need",
+
+  "taskStartTitle": "What will you work on?",
+  "taskStartHint": "Task name (optional)",
+  "taskStartDefaultTitle": "New task",
+  "taskStartAiButton": "Break it down with AI",
+  "taskStartAiLimitReached": "You worked hard today! Try writing 3 steps yourself.",
+  "taskStartError": "Please try again later",
+
+  "taskCardNoTitle": "Untitled task",
+  "@taskCardStepCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "taskCardStepCount": "{count} steps",
+
+  "microStartButtonLabel": "Just 2 minutes",
+
+  "aiLimitPositive": "You worked hard today!",
+  "@aiLimitRemaining": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "aiLimitRemaining": "{count} AI breakdowns remaining"
 }

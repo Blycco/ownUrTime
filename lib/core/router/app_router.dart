@@ -1,29 +1,23 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:ownurtime/core/l10n/app_localizations.dart';
+import 'package:ownurtime/features/task/presentation/screens/task_list_screen.dart';
+import 'package:ownurtime/features/task/presentation/screens/task_start_screen.dart';
 
 final appRouterProvider = Provider<GoRouter>(
   (ref) => GoRouter(
+    initialLocation: '/tasks',
     routes: [
       GoRoute(
-        path: '/',
-        builder: (context, state) => const _BootstrapScreen(),
+        path: '/tasks',
+        builder: (context, state) => const TaskListScreen(),
+        routes: [
+          GoRoute(
+            path: 'start',
+            builder: (context, state) => const TaskStartScreen(),
+          ),
+        ],
       ),
     ],
   ),
 );
-
-class _BootstrapScreen extends StatelessWidget {
-  const _BootstrapScreen();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text(AppLocalizations.of(context).appName),
-      ),
-    );
-  }
-}

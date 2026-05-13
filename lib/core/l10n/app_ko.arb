@@ -1,5 +1,36 @@
 {
   "@@locale": "ko",
   "appName": "OwnUrTime",
-  "bootstrapReady": "준비됐어요"
+  "bootstrapReady": "준비됐어요",
+
+  "taskListTitle": "오늘의 작업",
+  "taskListError": "잠시 후 다시 시도해 주세요",
+  "taskListStartFab": "시작하기",
+  "taskListEmptyHeadline": "오늘 첫 작업을 시작해봐요",
+  "taskListEmptySubtitle": "2분이면 충분해요",
+
+  "taskStartTitle": "무엇을 할까요?",
+  "taskStartHint": "작업 이름 (선택)",
+  "taskStartDefaultTitle": "새 작업",
+  "taskStartAiButton": "AI로 단계 나누기",
+  "taskStartAiLimitReached": "오늘도 열심히 했어요! 직접 3단계를 적어봐요.",
+  "taskStartError": "잠시 후 다시 시도해 주세요",
+
+  "taskCardNoTitle": "제목 없는 작업",
+  "@taskCardStepCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "taskCardStepCount": "{count}단계로 나눠짐",
+
+  "microStartButtonLabel": "2분만 해볼게요",
+
+  "aiLimitPositive": "오늘도 열심히 했어요!",
+  "@aiLimitRemaining": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "aiLimitRemaining": "AI 분해 {count}회 남음"
 }
