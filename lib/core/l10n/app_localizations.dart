@@ -109,6 +109,102 @@ abstract class AppLocalizations {
   /// In ko, this message translates to:
   /// **'준비됐어요'**
   String get bootstrapReady;
+
+  /// No description provided for @taskListTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'오늘의 작업'**
+  String get taskListTitle;
+
+  /// No description provided for @taskListError.
+  ///
+  /// In ko, this message translates to:
+  /// **'잠시 후 다시 시도해 주세요'**
+  String get taskListError;
+
+  /// No description provided for @taskListStartFab.
+  ///
+  /// In ko, this message translates to:
+  /// **'시작하기'**
+  String get taskListStartFab;
+
+  /// No description provided for @taskListEmptyHeadline.
+  ///
+  /// In ko, this message translates to:
+  /// **'오늘 첫 작업을 시작해봐요'**
+  String get taskListEmptyHeadline;
+
+  /// No description provided for @taskListEmptySubtitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'2분이면 충분해요'**
+  String get taskListEmptySubtitle;
+
+  /// No description provided for @taskStartTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'무엇을 할까요?'**
+  String get taskStartTitle;
+
+  /// No description provided for @taskStartHint.
+  ///
+  /// In ko, this message translates to:
+  /// **'작업 이름 (선택)'**
+  String get taskStartHint;
+
+  /// No description provided for @taskStartDefaultTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'새 작업'**
+  String get taskStartDefaultTitle;
+
+  /// No description provided for @taskStartAiButton.
+  ///
+  /// In ko, this message translates to:
+  /// **'AI로 단계 나누기'**
+  String get taskStartAiButton;
+
+  /// No description provided for @taskStartAiLimitReached.
+  ///
+  /// In ko, this message translates to:
+  /// **'오늘도 열심히 했어요! 직접 3단계를 적어봐요.'**
+  String get taskStartAiLimitReached;
+
+  /// No description provided for @taskStartError.
+  ///
+  /// In ko, this message translates to:
+  /// **'잠시 후 다시 시도해 주세요'**
+  String get taskStartError;
+
+  /// No description provided for @taskCardNoTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'제목 없는 작업'**
+  String get taskCardNoTitle;
+
+  /// No description provided for @taskCardStepCount.
+  ///
+  /// In ko, this message translates to:
+  /// **'{count}단계로 나눠짐'**
+  String taskCardStepCount(int count);
+
+  /// No description provided for @microStartButtonLabel.
+  ///
+  /// In ko, this message translates to:
+  /// **'2분만 해볼게요'**
+  String get microStartButtonLabel;
+
+  /// No description provided for @aiLimitPositive.
+  ///
+  /// In ko, this message translates to:
+  /// **'오늘도 열심히 했어요!'**
+  String get aiLimitPositive;
+
+  /// No description provided for @aiLimitRemaining.
+  ///
+  /// In ko, this message translates to:
+  /// **'AI 분해 {count}회 남음'**
+  String aiLimitRemaining(int count);
 }
 
 class _AppLocalizationsDelegate

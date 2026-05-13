@@ -25,11 +25,7 @@ class LoggerService {
     return '[$uid:$sid]';
   }
 
-  String _msg(
-    String feature,
-    String message,
-    Map<String, dynamic>? extra,
-  ) {
+  String _msg(String feature, String message, Map<String, dynamic>? extra) {
     final parts = [_ctx, '[$feature]', message];
     if (extra != null && extra.isNotEmpty) {
       parts.add(extra.entries.map((e) => '${e.key}=${e.value}').join(' '));
@@ -37,18 +33,10 @@ class LoggerService {
     return parts.join(' | ');
   }
 
-  void info(
-    String feature,
-    String message, {
-    Map<String, dynamic>? extra,
-  }) =>
+  void info(String feature, String message, {Map<String, dynamic>? extra}) =>
       _talker.info(_msg(feature, message, extra));
 
-  void warning(
-    String feature,
-    String message, {
-    Map<String, dynamic>? extra,
-  }) =>
+  void warning(String feature, String message, {Map<String, dynamic>? extra}) =>
       _talker.warning(_msg(feature, message, extra));
 
   void error(
@@ -57,14 +45,12 @@ class LoggerService {
     Object error, [
     StackTrace? stackTrace,
     Map<String, dynamic>? extra,
-  ]) =>
-      _talker.handle(error, stackTrace, _msg(feature, reason, extra));
+  ]) => _talker.handle(error, stackTrace, _msg(feature, reason, extra));
 
   void critical(
     String feature,
     String reason,
     Object error, [
     StackTrace? stackTrace,
-  ]) =>
-      _talker.critical(_msg(feature, reason, null), error, stackTrace);
+  ]) => _talker.critical(_msg(feature, reason, null), error, stackTrace);
 }
