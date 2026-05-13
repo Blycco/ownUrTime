@@ -66,4 +66,46 @@ class AppLocalizationsEn extends AppLocalizations {
   String aiLimitRemaining(int count) {
     return '$count AI breakdowns remaining';
   }
+
+  @override
+  String get sessionDistractedButton => 'I got distracted';
+
+  @override
+  String get sessionResetButton => 'Reset';
+
+  @override
+  String get sessionExtendButton => '+1 min';
+
+  @override
+  String get sessionPauseButton => 'Pause';
+
+  @override
+  String get sessionResumeButton => 'Resume';
+
+  @override
+  String get sessionAdaptiveCheckinQuestion => 'Are you focused?';
+
+  @override
+  String get sessionAdaptiveYes => 'Focused';
+
+  @override
+  String get sessionAdaptiveDistracted => 'Distracted';
+
+  @override
+  String get sessionCompletedTitle => 'Session Complete!';
+
+  @override
+  String get sessionDurationCustom => 'Custom';
+
+  @override
+  String get sessionDuration10Min => '10 min';
+
+  @override
+  String get sessionDuration15Min => '15 min';
+
+  @override
+  String get sessionDuration25Min => '25 min';
+
+  @override
+  String get sessionManualWorkMode => 'Manual work mode';
 }

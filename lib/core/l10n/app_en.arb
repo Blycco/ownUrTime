@@ -33,4 +33,19 @@
     }
   },
   "aiLimitRemaining": "{count} AI breakdowns remaining"
+  ,
+  "sessionDistractedButton": "I got distracted",
+  "sessionResetButton": "Reset",
+  "sessionExtendButton": "+1 min",
+  "sessionPauseButton": "Pause",
+  "sessionResumeButton": "Resume",
+  "sessionAdaptiveCheckinQuestion": "Are you focused?",
+  "sessionAdaptiveYes": "Focused",
+  "sessionAdaptiveDistracted": "Distracted",
+  "sessionCompletedTitle": "Session Complete!",
+  "sessionDurationCustom": "Custom",
+  "sessionDuration10Min": "10 min",
+  "sessionDuration15Min": "15 min",
+  "sessionDuration25Min": "25 min",
+  "sessionManualWorkMode": "Manual work mode"
 }

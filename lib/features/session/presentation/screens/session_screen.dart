@@ -1,0 +1,154 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:ownurtime/core/l10n/app_localizations.dart';
+import 'package:ownurtime/features/session/domain/entities/timer_state.dart';
+import 'package:ownurtime/features/session/presentation/providers/timer_provider.dart';
+import 'package:ownurtime/features/session/presentation/widgets/adaptive_checkin_overlay.dart';
+import 'package:ownurtime/features/session/presentation/widgets/duration_selector.dart';
+import 'package:ownurtime/features/session/presentation/widgets/timer_display.dart';
+
+class SessionScreen extends ConsumerWidget {
+  const SessionScreen({super.key, this.taskId});
+
+  final String? taskId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final timerState = ref.watch(timerProvider);
+    final notifier = ref.read(timerProvider.notifier);
+
+    Widget body;
+    if (timerState is TimerCompleted) {
+      body = Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(l10n.sessionCompletedTitle),
+            const SizedBox(height: 12),
+            FilledButton(
+              onPressed: () => Navigator.of(context).maybePop(),
+              child: Text(MaterialLocalizations.of(context).backButtonTooltip),
+            ),
+          ],
+        ),
+      );
+    } else if (timerState is TimerRunning || timerState is TimerPaused) {
+      final remaining = timerState is TimerRunning
+          ? timerState.remaining
+          : (timerState as TimerPaused).remaining;
+      final total = Duration(
+        minutes: notifier.targetDuration?.inMinutes ?? remaining.inMinutes,
+      );
+      final resetCount = timerState is TimerRunning ? timerState.resetCount : 0;
+      final canReset = resetCount < 3;
+
+      body = Column(
+        children: [
+          const SizedBox(height: 24),
+          Center(
+            child: TimerDisplay(remaining: remaining, total: total),
+          ),
+          const Spacer(),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () => notifier.declareDistraction(),
+              child: Text(l10n.sessionDistractedButton),
+            ),
+          ),
+          const SizedBox(height: 8),
+          Row(
+            children: [
+              Expanded(
+                child: OutlinedButton(
+                  onPressed: canReset && timerState is TimerRunning
+                      ? notifier.reset
+                      : null,
+                  child: Text(l10n.sessionResetButton),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: OutlinedButton(
+                  onPressed: timerState is TimerRunning
+                      ? notifier.extend
+                      : null,
+                  child: Text(l10n.sessionExtendButton),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          SizedBox(
+            width: double.infinity,
+            child: FilledButton(
+              onPressed: timerState is TimerRunning
+                  ? notifier.pause
+                  : notifier.resume,
+              child: Text(
+                timerState is TimerRunning
+                    ? l10n.sessionPauseButton
+                    : l10n.sessionResumeButton,
+              ),
+            ),
+          ),
+        ],
+      );
+    } else {
+      body = Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            DurationSelector(
+              onSelect: (duration) {
+                ref
+                    .read(timerProvider.notifier)
+                    .start(duration, taskId: taskId);
+              },
+            ),
+          ],
+        ),
+      );
+    }
+
+    return Shortcuts(
+      shortcuts: const <ShortcutActivator, Intent>{
+        SingleActivator(LogicalKeyboardKey.keyP, meta: true, shift: true):
+            ActivateIntent(),
+      },
+      child: Actions(
+        actions: <Type, Action<Intent>>{
+          ActivateIntent: CallbackAction<ActivateIntent>(
+            onInvoke: (_) {
+              notifier.declareDistraction();
+              return null;
+            },
+          ),
+        },
+        child: Focus(
+          autofocus: true,
+          child: Scaffold(
+            appBar: AppBar(),
+            body: Stack(
+              children: [
+                SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: body,
+                  ),
+                ),
+                if (timerState is TimerRunning &&
+                    timerState.adaptiveCheckInVisible)
+                  const Positioned.fill(child: AdaptiveCheckinOverlay()),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
