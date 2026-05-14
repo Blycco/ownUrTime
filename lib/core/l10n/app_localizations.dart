@@ -290,21 +290,101 @@ abstract class AppLocalizations {
   /// **'수동 작업 모드'**
   String get sessionManualWorkMode;
 
+  /// No description provided for @recoveryTypeUrgent.
+  ///
+  /// In ko, this message translates to:
+  /// **'긴급해요'**
   String get recoveryTypeUrgent;
+
+  /// No description provided for @recoveryTypeImpulsive.
+  ///
+  /// In ko, this message translates to:
+  /// **'그냥 흘러간 거예요'**
   String get recoveryTypeImpulsive;
+
+  /// No description provided for @recoveryTypeRest.
+  ///
+  /// In ko, this message translates to:
+  /// **'쉬어야 해요'**
   String get recoveryTypeRest;
+
+  /// No description provided for @recoveryUrgentMessage.
+  ///
+  /// In ko, this message translates to:
+  /// **'무언가 생겼어요'**
   String get recoveryUrgentMessage;
+
+  /// No description provided for @recoveryUrgentCta.
+  ///
+  /// In ko, this message translates to:
+  /// **'처리하고 돌아와요'**
   String get recoveryUrgentCta;
+
+  /// No description provided for @recoveryImpulsiveMessage.
+  ///
+  /// In ko, this message translates to:
+  /// **'그런 일 있지'**
   String get recoveryImpulsiveMessage;
+
+  /// No description provided for @recoveryImpulsiveCta.
+  ///
+  /// In ko, this message translates to:
+  /// **'당신의 작업이 기다리고 있어요'**
   String get recoveryImpulsiveCta;
+
+  /// No description provided for @recoveryRestMessage.
+  ///
+  /// In ko, this message translates to:
+  /// **'좋은 결정이에요'**
   String get recoveryRestMessage;
+
+  /// No description provided for @recoveryRestCta.
+  ///
+  /// In ko, this message translates to:
+  /// **'준비되면 시작해요'**
   String get recoveryRestCta;
+
+  /// No description provided for @recoveryResumeButton.
+  ///
+  /// In ko, this message translates to:
+  /// **'다시 시작'**
   String get recoveryResumeButton;
+
+  /// No description provided for @recoveryRestResumeButton.
+  ///
+  /// In ko, this message translates to:
+  /// **'시작할게요'**
   String get recoveryRestResumeButton;
+
+  /// No description provided for @recoveryContextTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'하던 작업'**
   String get recoveryContextTitle;
+
+  /// No description provided for @recoveryContextTaskLabel.
+  ///
+  /// In ko, this message translates to:
+  /// **'작업:'**
   String get recoveryContextTaskLabel;
+
+  /// No description provided for @recoveryContextStepLabel.
+  ///
+  /// In ko, this message translates to:
+  /// **'진행 중이던 단계:'**
   String get recoveryContextStepLabel;
+
+  /// No description provided for @recoveryContextElapsedLabel.
+  ///
+  /// In ko, this message translates to:
+  /// **'{minutes}분 진행 중'**
   String recoveryContextElapsedLabel(int minutes);
+
+  /// No description provided for @moodSkipButton.
+  ///
+  /// In ko, this message translates to:
+  /// **'건너뛰기'**
+  String get moodSkipButton;
 }
 
 class _AppLocalizationsDelegate

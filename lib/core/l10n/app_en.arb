@@ -67,5 +67,6 @@
       "minutes": { "type": "int" }
     }
   },
-  "recoveryContextElapsedLabel": "{minutes} min into session"
+  "recoveryContextElapsedLabel": "{minutes} min into session",
+  "moodSkipButton": "Skip"
 }

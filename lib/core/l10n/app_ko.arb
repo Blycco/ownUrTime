@@ -67,5 +67,6 @@
       "minutes": { "type": "int" }
     }
   },
-  "recoveryContextElapsedLabel": "{minutes}분 진행 중"
+  "recoveryContextElapsedLabel": "{minutes}분 진행 중",
+  "moodSkipButton": "건너뛰기"
 }
