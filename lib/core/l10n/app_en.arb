@@ -32,8 +32,7 @@
       "count": { "type": "int" }
     }
   },
-  "aiLimitRemaining": "{count} AI breakdowns remaining"
-  ,
+  "aiLimitRemaining": "{count} AI breakdowns remaining",
   "sessionDistractedButton": "I got distracted",
   "sessionResetButton": "Reset",
   "sessionExtendButton": "+1 min",
@@ -47,5 +46,26 @@
   "sessionDuration10Min": "10 min",
   "sessionDuration15Min": "15 min",
   "sessionDuration25Min": "25 min",
-  "sessionManualWorkMode": "Manual work mode"
+  "sessionManualWorkMode": "Manual work mode",
+
+  "recoveryTypeUrgent": "Urgent",
+  "recoveryTypeImpulsive": "It just happened",
+  "recoveryTypeRest": "Need a break",
+  "recoveryUrgentMessage": "Something came up",
+  "recoveryUrgentCta": "Handle it and come back",
+  "recoveryImpulsiveMessage": "It happens",
+  "recoveryImpulsiveCta": "Your task is waiting",
+  "recoveryRestMessage": "Good call",
+  "recoveryRestCta": "Start when you are ready",
+  "recoveryResumeButton": "Resume",
+  "recoveryRestResumeButton": "Let us start",
+  "recoveryContextTitle": "Where you left off",
+  "recoveryContextTaskLabel": "Task:",
+  "recoveryContextStepLabel": "Step in progress:",
+  "@recoveryContextElapsedLabel": {
+    "placeholders": {
+      "minutes": { "type": "int" }
+    }
+  },
+  "recoveryContextElapsedLabel": "{minutes} min into session"
 }

@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import 'package:ownurtime/features/recovery/data/providers/distraction_providers.dart';
+import 'package:ownurtime/features/recovery/domain/entities/distraction.dart';
 import 'package:ownurtime/features/session/data/providers/session_providers.dart';
 import 'package:ownurtime/features/session/domain/entities/session.dart';
 import 'package:ownurtime/features/session/domain/entities/timer_state.dart';
@@ -108,22 +110,48 @@ class TimerNotifier extends _$TimerNotifier {
     );
   }
 
-  Future<void> declareDistraction() async {
+  Future<Distraction?> declareDistraction() async {
     final current = state;
-    if (current is! TimerRunning) return;
+    if (current is! TimerRunning) return null;
     _cancelTicker();
 
     _currentDistractionCount = current.distractionCount + 1;
-    // 타이머 중단 후 paused 상태로 전환 (Recovery flow는 Task 04에서 연결)
     state = TimerState.paused(remaining: current.remaining);
+
+    Distraction? distraction;
+    try {
+      distraction = await ref.read(logDistractionUseCaseProvider)(
+        sessionId: _activeSession?.id ?? _guestUserId,
+        type: DistractionType.impulsive,
+      );
+    } on Exception {
+      // 로깅 실패 시 타이머 pause 유지, recovery 화면은 계속 표시
+    }
 
     final session = _activeSession;
     if (session != null) {
-      final repo = ref.read(sessionRepositoryProvider);
-      _activeSession = await repo.updateSession(
-        session.copyWith(distractionCount: _currentDistractionCount),
-      );
+      try {
+        final repo = ref.read(sessionRepositoryProvider);
+        _activeSession = await repo.updateSession(
+          session.copyWith(distractionCount: _currentDistractionCount),
+        );
+      } on Exception {
+        // 세션 업데이트 실패 시 무시 — 타이머 상태는 이미 반영됨
+      }
     }
+
+    return distraction;
+  }
+
+  void resumeFromDistraction() {
+    final current = state;
+    if (current is! TimerPaused) return;
+    state = TimerState.running(
+      remaining: current.remaining,
+      distractionCount: _currentDistractionCount,
+      resetCount: _currentResetCount,
+    );
+    _startTicker();
   }
 
   Future<void> dismissAdaptiveCheckIn({required bool focused}) async {

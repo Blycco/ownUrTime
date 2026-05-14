@@ -107,4 +107,51 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get sessionManualWorkMode => '수동 작업 모드';
+
+  @override
+  String get recoveryTypeUrgent => '긴급해요';
+
+  @override
+  String get recoveryTypeImpulsive => '그냥 흘러간 거예요';
+
+  @override
+  String get recoveryTypeRest => '쉬어야 해요';
+
+  @override
+  String get recoveryUrgentMessage => '무언가 생겼어요';
+
+  @override
+  String get recoveryUrgentCta => '처리하고 돌아와요';
+
+  @override
+  String get recoveryImpulsiveMessage => '그런 일 있지';
+
+  @override
+  String get recoveryImpulsiveCta => '당신의 작업이 기다리고 있어요';
+
+  @override
+  String get recoveryRestMessage => '좋은 결정이에요';
+
+  @override
+  String get recoveryRestCta => '준비되면 시작해요';
+
+  @override
+  String get recoveryResumeButton => '다시 시작';
+
+  @override
+  String get recoveryRestResumeButton => '시작할게요';
+
+  @override
+  String get recoveryContextTitle => '하던 작업';
+
+  @override
+  String get recoveryContextTaskLabel => '작업:';
+
+  @override
+  String get recoveryContextStepLabel => '진행 중이던 단계:';
+
+  @override
+  String recoveryContextElapsedLabel(int minutes) {
+    return '$minutes분 진행 중';
+  }
 }

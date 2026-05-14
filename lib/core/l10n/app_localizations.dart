@@ -289,6 +289,22 @@ abstract class AppLocalizations {
   /// In ko, this message translates to:
   /// **'수동 작업 모드'**
   String get sessionManualWorkMode;
+
+  String get recoveryTypeUrgent;
+  String get recoveryTypeImpulsive;
+  String get recoveryTypeRest;
+  String get recoveryUrgentMessage;
+  String get recoveryUrgentCta;
+  String get recoveryImpulsiveMessage;
+  String get recoveryImpulsiveCta;
+  String get recoveryRestMessage;
+  String get recoveryRestCta;
+  String get recoveryResumeButton;
+  String get recoveryRestResumeButton;
+  String get recoveryContextTitle;
+  String get recoveryContextTaskLabel;
+  String get recoveryContextStepLabel;
+  String recoveryContextElapsedLabel(int minutes);
 }
 
 class _AppLocalizationsDelegate

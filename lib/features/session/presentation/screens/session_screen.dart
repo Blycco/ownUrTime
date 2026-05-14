@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:ownurtime/core/l10n/app_localizations.dart';
 import 'package:ownurtime/features/session/domain/entities/timer_state.dart';
@@ -10,15 +13,35 @@ import 'package:ownurtime/features/session/presentation/widgets/duration_selecto
 import 'package:ownurtime/features/session/presentation/widgets/timer_display.dart';
 
 class SessionScreen extends ConsumerWidget {
-  const SessionScreen({super.key, this.taskId});
+  const SessionScreen({super.key, this.taskId, this.taskTitle});
 
   final String? taskId;
+  final String? taskTitle;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final timerState = ref.watch(timerProvider);
     final notifier = ref.read(timerProvider.notifier);
+
+    Future<void> handleDistraction() async {
+      final distraction = await notifier.declareDistraction();
+      if (!context.mounted || distraction == null) return;
+      final paused = ref.read(timerProvider);
+      if (paused is! TimerPaused) return;
+
+      final total = notifier.targetDuration ?? paused.remaining;
+      final elapsed = total - paused.remaining;
+      await context.push(
+        '/recovery',
+        extra: <String, Object?>{
+          'distraction': distraction,
+          'taskTitle': taskTitle ?? '',
+          'currentStep': null,
+          'elapsedTime': elapsed,
+        },
+      );
+    }
 
     Widget body;
     if (timerState is TimerCompleted) {
@@ -55,7 +78,7 @@ class SessionScreen extends ConsumerWidget {
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () => notifier.declareDistraction(),
+              onPressed: handleDistraction,
               child: Text(l10n.sessionDistractedButton),
             ),
           ),
@@ -124,7 +147,7 @@ class SessionScreen extends ConsumerWidget {
         actions: <Type, Action<Intent>>{
           ActivateIntent: CallbackAction<ActivateIntent>(
             onInvoke: (_) {
-              notifier.declareDistraction();
+              unawaited(handleDistraction());
               return null;
             },
           ),

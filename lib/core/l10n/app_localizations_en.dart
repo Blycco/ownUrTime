@@ -108,4 +108,51 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get sessionManualWorkMode => 'Manual work mode';
+
+  @override
+  String get recoveryTypeUrgent => 'Urgent';
+
+  @override
+  String get recoveryTypeImpulsive => 'It just happened';
+
+  @override
+  String get recoveryTypeRest => 'Need a break';
+
+  @override
+  String get recoveryUrgentMessage => 'Something came up';
+
+  @override
+  String get recoveryUrgentCta => 'Handle it and come back';
+
+  @override
+  String get recoveryImpulsiveMessage => 'It happens';
+
+  @override
+  String get recoveryImpulsiveCta => 'Your task is waiting';
+
+  @override
+  String get recoveryRestMessage => 'Good call';
+
+  @override
+  String get recoveryRestCta => 'Start when you are ready';
+
+  @override
+  String get recoveryResumeButton => 'Resume';
+
+  @override
+  String get recoveryRestResumeButton => 'Let us start';
+
+  @override
+  String get recoveryContextTitle => 'Where you left off';
+
+  @override
+  String get recoveryContextTaskLabel => 'Task:';
+
+  @override
+  String get recoveryContextStepLabel => 'Step in progress:';
+
+  @override
+  String recoveryContextElapsedLabel(int minutes) {
+    return '$minutes min into session';
+  }
 }
