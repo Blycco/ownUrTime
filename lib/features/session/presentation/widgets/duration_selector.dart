@@ -3,9 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:ownurtime/core/l10n/app_localizations.dart';
 
 class DurationSelector extends StatefulWidget {
-  const DurationSelector({super.key, required this.onSelect});
+  const DurationSelector({
+    super.key,
+    required this.onSelect,
+    this.suggestedMinutes,
+  });
 
   final void Function(Duration) onSelect;
+  final int? suggestedMinutes;
 
   @override
   State<DurationSelector> createState() => _DurationSelectorState();
@@ -78,17 +83,17 @@ class _DurationSelectorState extends State<DurationSelector> {
       children: [
         ChoiceChip(
           label: Text(l10n.sessionDuration10Min),
-          selected: false,
+          selected: widget.suggestedMinutes == 10,
           onSelected: (_) => widget.onSelect(const Duration(minutes: 10)),
         ),
         ChoiceChip(
           label: Text(l10n.sessionDuration15Min),
-          selected: false,
+          selected: widget.suggestedMinutes == 15,
           onSelected: (_) => widget.onSelect(const Duration(minutes: 15)),
         ),
         ChoiceChip(
           label: Text(l10n.sessionDuration25Min),
-          selected: false,
+          selected: widget.suggestedMinutes == 25,
           onSelected: (_) => widget.onSelect(const Duration(minutes: 25)),
         ),
         ChoiceChip(

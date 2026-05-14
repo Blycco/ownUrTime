@@ -155,4 +155,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String recoveryContextElapsedLabel(int minutes) {
     return '$minutes min into session';
   }
+
+  @override
+  String get moodSkipButton => 'Skip';
 }

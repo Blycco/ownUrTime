@@ -154,4 +154,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String recoveryContextElapsedLabel(int minutes) {
     return '$minutes분 진행 중';
   }
+
+  @override
+  String get moodSkipButton => '건너뛰기';
 }

@@ -6,6 +6,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:ownurtime/core/l10n/app_localizations.dart';
+import 'package:ownurtime/features/mood/presentation/providers/mood_check_provider.dart';
+import 'package:ownurtime/features/mood/presentation/widgets/mood_check_widget.dart';
 import 'package:ownurtime/features/session/domain/entities/timer_state.dart';
 import 'package:ownurtime/features/session/presentation/providers/timer_provider.dart';
 import 'package:ownurtime/features/session/presentation/widgets/adaptive_checkin_overlay.dart';
@@ -43,6 +45,9 @@ class SessionScreen extends ConsumerWidget {
       );
     }
 
+    final moodState = ref.watch(moodCheckProvider);
+    final moodNotifier = ref.read(moodCheckProvider.notifier);
+
     Widget body;
     if (timerState is TimerCompleted) {
       body = Center(
@@ -50,6 +55,12 @@ class SessionScreen extends ConsumerWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(l10n.sessionCompletedTitle),
+            const SizedBox(height: 16),
+            MoodCheckWidget(
+              onMoodSelected: (level) =>
+                  unawaited(moodNotifier.checkMood(level)),
+              onSkip: moodNotifier.skip,
+            ),
             const SizedBox(height: 12),
             FilledButton(
               onPressed: () => Navigator.of(context).maybePop(),
@@ -121,18 +132,30 @@ class SessionScreen extends ConsumerWidget {
         ],
       );
     } else {
+      final suggestedMinutes = switch (moodState) {
+        MoodCheckDone(:final suggestedMinutes) => suggestedMinutes,
+        _ => null,
+      };
       body = Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            DurationSelector(
-              onSelect: (duration) {
-                ref
-                    .read(timerProvider.notifier)
-                    .start(duration, taskId: taskId);
-              },
-            ),
+            if (moodState is MoodCheckPending)
+              MoodCheckWidget(
+                onMoodSelected: (level) =>
+                    unawaited(moodNotifier.checkMood(level)),
+                onSkip: moodNotifier.skip,
+              )
+            else
+              DurationSelector(
+                suggestedMinutes: suggestedMinutes,
+                onSelect: (duration) {
+                  ref
+                      .read(timerProvider.notifier)
+                      .start(duration, taskId: taskId);
+                },
+              ),
           ],
         ),
       );

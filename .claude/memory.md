@@ -2,6 +2,25 @@
 > Format: {date} | {completed} | {next} | {notes}
 > Most recent at top.
 
+## 2026-05-14 | Task 05 완료 — Mood Check feature
+
+- **Completed**:
+  1. domain: MoodCheck entity (freezed), MoodRepository interface, CheckMoodUseCase (level→suggestedMinutes record 반환), GetTodayMoodChecksUseCase
+  2. data: InMemoryMoodDataSource, MoodRepositoryImpl, Riverpod DI 체인 (mood_providers.dart)
+  3. presentation: MoodCheckWidget (이모지 5개 + Skip), MoodCheckNotifier (sealed state, keepAlive)
+  4. session 통합: idle 상태 mood→DurationSelector 흐름, completed 상태 after-session mood 표시
+  5. DurationSelector suggestedMinutes pre-fill 파라미터 추가
+  6. l10n: moodSkipButton 키 추가 (en/ko)
+  7. Tests: 12개 신규 (41/41 전체 통과)
+  8. PR #10 → develop 예정
+- **State**:
+  - Branch: `feat/feature-mood` (PR 생성 전)
+  - `flutter analyze` zero warnings, `flutter test` 41/41
+- **Known Limitations**:
+  - MoodCheckNotifier 앱 재시작 시 state 초기화 (Phase 2 Supabase 연동 시 해소)
+  - codex exec 백그라운드 stdin hang 문제 — 프롬프트 파일 경유 방식으로 우회
+- **Next**: Task 06 (feature-auth) 또는 Task 07 (feature-reward)
+
 ## 2026-05-13 | Task 02 완료 — Task feature 수직 슬라이스
 
 - **Completed**:

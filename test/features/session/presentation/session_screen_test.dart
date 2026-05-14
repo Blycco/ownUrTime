@@ -19,6 +19,12 @@ void main() {
       ),
     );
     await tester.pump();
+    // Mood check widget shows first — skip to reach DurationSelector
+    final skipFinder = find.text('건너뛰기');
+    if (skipFinder.evaluate().isNotEmpty) {
+      await tester.tap(skipFinder);
+      await tester.pump();
+    }
   }
 
   testWidgets('distracted button always visible', (tester) async {
