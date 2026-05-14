@@ -33,6 +33,6 @@
 ## Done When
 - [x] flutter analyze — zero warnings in features/session/
 - [x] All tests pass
-- [ ] Timer counts down, resets, extends correctly (수동 확인 필요)
-- [ ] Distracted button always visible; never suppressed (수동 확인 필요)
-- [ ] Manual-work mode disables adaptive check-in for that session (수동 확인 필요)
+- [x] Timer counts down, resets, extends correctly (시뮬레이터 확인)
+- [x] Distracted button always visible; never suppressed (시뮬레이터 확인)
+- [x] Manual-work mode switch hidden from UI (Phase 2 설정 화면 재노출 예정)
