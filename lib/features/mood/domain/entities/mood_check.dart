@@ -4,6 +4,8 @@ part 'mood_check.freezed.dart';
 
 @freezed
 abstract class MoodCheck with _$MoodCheck {
+  const MoodCheck._();
+
   const factory MoodCheck({
     required String id,
     required String userId,
@@ -11,4 +13,8 @@ abstract class MoodCheck with _$MoodCheck {
     required int moodLevel,
     required DateTime checkedAt,
   }) = _MoodCheck;
+
+  @override
+  String toString() =>
+      'MoodCheck(id: $id, userId: $userId, sessionId: $sessionId, moodLevel: [redacted], checkedAt: $checkedAt)';
 }

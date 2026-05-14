@@ -18,20 +18,20 @@ class MoodCheckModel {
   factory MoodCheckModel.fromJson(Map<String, dynamic> json) {
     return MoodCheckModel(
       id: json['id'] as String,
-      userId: json['userId'] as String,
-      sessionId: json['sessionId'] as String?,
-      moodLevel: json['moodLevel'] as int,
-      checkedAt: DateTime.parse(json['checkedAt'] as String),
+      userId: json['user_id'] as String,
+      sessionId: json['session_id'] as String?,
+      moodLevel: json['mood_level'] as int,
+      checkedAt: DateTime.parse(json['checked_at'] as String),
     );
   }
 
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': id,
-      'userId': userId,
-      'sessionId': sessionId,
-      'moodLevel': moodLevel,
-      'checkedAt': checkedAt.toIso8601String(),
+      'user_id': userId,
+      'session_id': sessionId,
+      'mood_level': moodLevel,
+      'checked_at': checkedAt.toIso8601String(),
     };
   }
 

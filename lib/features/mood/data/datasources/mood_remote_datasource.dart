@@ -1,8 +1,10 @@
+import 'package:ownurtime/features/mood/data/datasources/mood_datasource.dart';
 import 'package:ownurtime/features/mood/data/models/mood_check_model.dart';
 
-class InMemoryMoodDataSource {
+class InMemoryMoodDataSource implements MoodDataSource {
   final List<MoodCheckModel> _store = <MoodCheckModel>[];
 
+  @override
   Future<MoodCheckModel> saveMoodCheck(
     String userId,
     int level, {
@@ -20,6 +22,7 @@ class InMemoryMoodDataSource {
     return model;
   }
 
+  @override
   Future<List<MoodCheckModel>> getTodayMoodChecks(String userId) async {
     final now = DateTime.now();
     return _store.where((MoodCheckModel model) {

@@ -32,10 +32,6 @@ bool operator ==(Object other) {
 @override
 int get hashCode => Object.hash(runtimeType,id,userId,sessionId,moodLevel,checkedAt);
 
-@override
-String toString() {
-  return 'MoodCheck(id: $id, userId: $userId, sessionId: $sessionId, moodLevel: $moodLevel, checkedAt: $checkedAt)';
-}
 
 
 }
@@ -209,8 +205,8 @@ return $default(_that.id,_that.userId,_that.sessionId,_that.moodLevel,_that.chec
 /// @nodoc
 
 
-class _MoodCheck implements MoodCheck {
-  const _MoodCheck({required this.id, required this.userId, this.sessionId, required this.moodLevel, required this.checkedAt});
+class _MoodCheck extends MoodCheck {
+  const _MoodCheck({required this.id, required this.userId, this.sessionId, required this.moodLevel, required this.checkedAt}): super._();
   
 
 @override final  String id;
@@ -236,10 +232,6 @@ bool operator ==(Object other) {
 @override
 int get hashCode => Object.hash(runtimeType,id,userId,sessionId,moodLevel,checkedAt);
 
-@override
-String toString() {
-  return 'MoodCheck(id: $id, userId: $userId, sessionId: $sessionId, moodLevel: $moodLevel, checkedAt: $checkedAt)';
-}
 
 
 }

@@ -1,11 +1,11 @@
-import 'package:ownurtime/features/mood/data/datasources/mood_remote_datasource.dart';
+import 'package:ownurtime/features/mood/data/datasources/mood_datasource.dart';
 import 'package:ownurtime/features/mood/domain/entities/mood_check.dart';
 import 'package:ownurtime/features/mood/domain/repositories/mood_repository.dart';
 
 class MoodRepositoryImpl implements MoodRepository {
   const MoodRepositoryImpl(this._dataSource);
 
-  final InMemoryMoodDataSource _dataSource;
+  final MoodDataSource _dataSource;
 
   @override
   Future<MoodCheck> saveMoodCheck(

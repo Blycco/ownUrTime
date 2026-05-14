@@ -6,6 +6,8 @@ import 'package:ownurtime/features/mood/data/providers/mood_providers.dart';
 part 'mood_check_provider.freezed.dart';
 part 'mood_check_provider.g.dart';
 
+const _guestUserId = 'guest';
+
 @freezed
 sealed class MoodCheckState with _$MoodCheckState {
   const factory MoodCheckState.pending() = MoodCheckPending;
@@ -19,7 +21,7 @@ class MoodCheckNotifier extends _$MoodCheckNotifier {
 
   Future<void> checkMood(int level) async {
     final useCase = ref.read(checkMoodUseCaseProvider);
-    final (_, suggested) = await useCase(userId: 'guest', level: level);
+    final (_, suggested) = await useCase(userId: _guestUserId, level: level);
     state = MoodCheckState.done(suggestedMinutes: suggested);
   }
 

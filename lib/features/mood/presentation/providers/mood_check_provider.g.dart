@@ -41,7 +41,7 @@ final class MoodCheckNotifierProvider
   }
 }
 
-String _$moodCheckNotifierHash() => r'd30fcc6ec83931f506df78f02c8817853b3fcb9f';
+String _$moodCheckNotifierHash() => r'47b07c51cd80536389493a127f8c9f9ff771a8f4';
 
 abstract class _$MoodCheckNotifier extends $Notifier<MoodCheckState> {
   MoodCheckState build();
