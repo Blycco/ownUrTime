@@ -32,8 +32,7 @@
       "count": { "type": "int" }
     }
   },
-  "aiLimitRemaining": "AI 분해 {count}회 남음"
-  ,
+  "aiLimitRemaining": "AI 분해 {count}회 남음",
   "sessionDistractedButton": "집중이 흐트러졌어요",
   "sessionResetButton": "처음부터",
   "sessionExtendButton": "+1분",
@@ -47,5 +46,26 @@
   "sessionDuration10Min": "10분",
   "sessionDuration15Min": "15분",
   "sessionDuration25Min": "25분",
-  "sessionManualWorkMode": "수동 작업 모드"
+  "sessionManualWorkMode": "수동 작업 모드",
+
+  "recoveryTypeUrgent": "긴급해요",
+  "recoveryTypeImpulsive": "그냥 흘러간 거예요",
+  "recoveryTypeRest": "쉬어야 해요",
+  "recoveryUrgentMessage": "무언가 생겼어요",
+  "recoveryUrgentCta": "처리하고 돌아와요",
+  "recoveryImpulsiveMessage": "그런 일 있지",
+  "recoveryImpulsiveCta": "당신의 작업이 기다리고 있어요",
+  "recoveryRestMessage": "좋은 결정이에요",
+  "recoveryRestCta": "준비되면 시작해요",
+  "recoveryResumeButton": "다시 시작",
+  "recoveryRestResumeButton": "시작할게요",
+  "recoveryContextTitle": "하던 작업",
+  "recoveryContextTaskLabel": "작업:",
+  "recoveryContextStepLabel": "진행 중이던 단계:",
+  "@recoveryContextElapsedLabel": {
+    "placeholders": {
+      "minutes": { "type": "int" }
+    }
+  },
+  "recoveryContextElapsedLabel": "{minutes}분 진행 중"
 }
