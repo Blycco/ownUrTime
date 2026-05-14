@@ -65,4 +65,46 @@ class AppLocalizationsKo extends AppLocalizations {
   String aiLimitRemaining(int count) {
     return 'AI 분해 $count회 남음';
   }
+
+  @override
+  String get sessionDistractedButton => '집중이 흐트러졌어요';
+
+  @override
+  String get sessionResetButton => '처음부터';
+
+  @override
+  String get sessionExtendButton => '+1분';
+
+  @override
+  String get sessionPauseButton => '잠깐 멈추기';
+
+  @override
+  String get sessionResumeButton => '다시 시작';
+
+  @override
+  String get sessionAdaptiveCheckinQuestion => '집중 중이신가요?';
+
+  @override
+  String get sessionAdaptiveYes => '집중 중';
+
+  @override
+  String get sessionAdaptiveDistracted => '흐트러졌어요';
+
+  @override
+  String get sessionCompletedTitle => '세션 완료!';
+
+  @override
+  String get sessionDurationCustom => '커스텀';
+
+  @override
+  String get sessionDuration10Min => '10분';
+
+  @override
+  String get sessionDuration15Min => '15분';
+
+  @override
+  String get sessionDuration25Min => '25분';
+
+  @override
+  String get sessionManualWorkMode => '수동 작업 모드';
 }

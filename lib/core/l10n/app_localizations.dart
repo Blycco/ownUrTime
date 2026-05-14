@@ -205,6 +205,90 @@ abstract class AppLocalizations {
   /// In ko, this message translates to:
   /// **'AI 분해 {count}회 남음'**
   String aiLimitRemaining(int count);
+
+  /// No description provided for @sessionDistractedButton.
+  ///
+  /// In ko, this message translates to:
+  /// **'집중이 흐트러졌어요'**
+  String get sessionDistractedButton;
+
+  /// No description provided for @sessionResetButton.
+  ///
+  /// In ko, this message translates to:
+  /// **'처음부터'**
+  String get sessionResetButton;
+
+  /// No description provided for @sessionExtendButton.
+  ///
+  /// In ko, this message translates to:
+  /// **'+1분'**
+  String get sessionExtendButton;
+
+  /// No description provided for @sessionPauseButton.
+  ///
+  /// In ko, this message translates to:
+  /// **'잠깐 멈추기'**
+  String get sessionPauseButton;
+
+  /// No description provided for @sessionResumeButton.
+  ///
+  /// In ko, this message translates to:
+  /// **'다시 시작'**
+  String get sessionResumeButton;
+
+  /// No description provided for @sessionAdaptiveCheckinQuestion.
+  ///
+  /// In ko, this message translates to:
+  /// **'집중 중이신가요?'**
+  String get sessionAdaptiveCheckinQuestion;
+
+  /// No description provided for @sessionAdaptiveYes.
+  ///
+  /// In ko, this message translates to:
+  /// **'집중 중'**
+  String get sessionAdaptiveYes;
+
+  /// No description provided for @sessionAdaptiveDistracted.
+  ///
+  /// In ko, this message translates to:
+  /// **'흐트러졌어요'**
+  String get sessionAdaptiveDistracted;
+
+  /// No description provided for @sessionCompletedTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'세션 완료!'**
+  String get sessionCompletedTitle;
+
+  /// No description provided for @sessionDurationCustom.
+  ///
+  /// In ko, this message translates to:
+  /// **'커스텀'**
+  String get sessionDurationCustom;
+
+  /// No description provided for @sessionDuration10Min.
+  ///
+  /// In ko, this message translates to:
+  /// **'10분'**
+  String get sessionDuration10Min;
+
+  /// No description provided for @sessionDuration15Min.
+  ///
+  /// In ko, this message translates to:
+  /// **'15분'**
+  String get sessionDuration15Min;
+
+  /// No description provided for @sessionDuration25Min.
+  ///
+  /// In ko, this message translates to:
+  /// **'25분'**
+  String get sessionDuration25Min;
+
+  /// No description provided for @sessionManualWorkMode.
+  ///
+  /// In ko, this message translates to:
+  /// **'수동 작업 모드'**
+  String get sessionManualWorkMode;
 }
 
 class _AppLocalizationsDelegate
