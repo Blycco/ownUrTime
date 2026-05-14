@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import 'package:ownurtime/features/auth/presentation/providers/auth_provider.dart';
 import 'package:ownurtime/features/recovery/data/providers/distraction_providers.dart';
 import 'package:ownurtime/features/recovery/domain/entities/distraction.dart';
 import 'package:ownurtime/features/session/data/providers/session_providers.dart';
@@ -175,6 +176,7 @@ class TimerNotifier extends _$TimerNotifier {
       final repo = ref.read(sessionRepositoryProvider);
       CompleteSessionUseCase(repo)(session.id).ignore();
     }
+    ref.read(authProvider.notifier).incrementSessionCompletionCount().ignore();
   }
 
   void _startTicker() {

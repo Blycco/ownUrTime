@@ -2,6 +2,26 @@
 > Format: {date} | {completed} | {next} | {notes}
 > Most recent at top.
 
+## 2026-05-14 | Task 06 완료 — Auth / Guest Mode First
+
+- **Completed**:
+  1. domain: AppUser (freezed), AuthState sealed (guest/authenticated), AuthRepository interface, 3 UseCases (signInWithApple, signOut, migrateLocalData)
+  2. data: SupabaseAuthDataSource (onAuthStateChange OAuth 패턴), SecureStorageAuthDataSource, AuthRepositoryImpl, DI chain
+  3. presentation: AuthNotifier (keepAlive), SignInPromptNotifier (auto-dispose, in-memory), LoginScreen, SignInPromptSheet
+  4. cross-feature: TimerNotifier._complete()에서 incrementSessionCompletionCount() 호출, SessionScreen에서 ref.listen으로 3회 완료 시 bottom sheet 표시
+  5. 레이어 분리: taskRepositoryProvider를 task/data/providers/로 이동
+  6. l10n: authSignInWithApple, authContinueAsGuest, authPromptTitle, authMaybeLater, authSignInError 키 추가
+  7. Tests: 7개 신규 auth 테스트 (48/48 전체 통과)
+  8. flutter-reviewer HIGH 2개 + Codex 비관적 리뷰 HIGH 1개 수정 완료
+- **State**:
+  - Branch: `feat/feature-auth` (커밋 대기)
+  - `flutter analyze` zero warnings, `flutter test` 48/48
+- **Known Limitations**:
+  - TimerNotifier: _guestUserId = 'guest' 고정 — Phase 2에서 authProvider.userId로 교체 필요
+  - MigrateLocalDataUseCase 비원자적 — Phase 2 Supabase batch transaction으로 교체
+  - 수동 설정 필요: iOS/macOS Info.plist deep link, Xcode Sign In with Apple capability, Supabase Apple provider
+- **Next**: Task 07 (feature-reward) 또는 Task 08 (infra-l10n)
+
 ## 2026-05-14 | Task 05 완료 — Mood Check feature
 
 - **Completed**:

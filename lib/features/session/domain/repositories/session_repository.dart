@@ -10,4 +10,9 @@ abstract interface class SessionRepository {
   Future<Session> completeSession(String sessionId);
   Future<Session> abandonSession(String sessionId);
   Future<Session> updateSession(Session session);
+  Future<List<Session>> getSessions(String userId);
+  Future<void> migrateToUser({
+    required List<Session> sessions,
+    required String newUserId,
+  });
 }

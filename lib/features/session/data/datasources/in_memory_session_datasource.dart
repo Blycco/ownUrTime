@@ -52,6 +52,10 @@ class InMemorySessionDataSource implements SessionLocalDataSource {
     return session;
   }
 
+  @override
+  Future<List<Session>> getSessions(String userId) async =>
+      _store.values.where((session) => session.userId == userId).toList();
+
   Session _requireSession(String sessionId) {
     final session = _store[sessionId];
     if (session != null) {

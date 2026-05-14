@@ -157,4 +157,19 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get moodSkipButton => '건너뛰기';
+
+  @override
+  String get authSignInWithApple => 'Apple로 로그인';
+
+  @override
+  String get authContinueAsGuest => '게스트로 계속';
+
+  @override
+  String get authPromptTitle => '진행 상황을 저장하고 여러 기기에서 이어가세요';
+
+  @override
+  String get authMaybeLater => '나중에';
+
+  @override
+  String get authSignInError => '로그인에 실패했습니다. 다시 시도해 주세요.';
 }

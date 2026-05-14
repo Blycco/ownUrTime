@@ -11,4 +11,5 @@ abstract interface class SessionLocalDataSource {
   Future<Session> completeSession(String sessionId);
   Future<Session> abandonSession(String sessionId);
   Future<Session> updateSession(Session session);
+  Future<List<Session>> getSessions(String userId);
 }

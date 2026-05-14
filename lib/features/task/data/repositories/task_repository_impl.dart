@@ -33,4 +33,14 @@ class TaskRepositoryImpl implements TaskRepository {
   ) {
     return _local.decomposeTask(taskId, title);
   }
+
+  @override
+  Future<void> migrateToUser({
+    required List<Task> tasks,
+    required String newUserId,
+  }) async {
+    for (final task in tasks) {
+      await updateTask(task.copyWith(userId: newUserId));
+    }
+  }
 }
