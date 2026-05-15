@@ -2,6 +2,25 @@
 > Format: {date} | {completed} | {next} | {notes}
 > Most recent at top.
 
+## 2026-05-15 | Phase 1 완료 — Task 09 Analytics (PostHog)
+
+- **Completed**:
+  1. `AnalyticsService` 인터페이스 + `PostHogAnalyticsService` (init/track/identify/recordFirstSessionDate)
+  2. 5 KPI 이벤트 연결: initiation_conversion, session_completed, session_distracted, recovery_returned, day_2_return
+  3. EU PostHog 서버 (`https://eu.posthog.com`) — PIPA 준수
+  4. `kFirstSessionDateStorageKey` 단일화 — write/read 키 불일치 버그 예방
+  5. `POSTHOG_API_KEY` dart-define 기반, 미설정 시 silently skip
+  6. flutter-reviewer HIGH 2건 수정: posthog import 누출 → init() 캡슐화, 자유 함수 → 인터페이스 메서드
+  7. Tests: 61/61 passed. PR #19 → develop 머지 완료.
+- **State**:
+  - Branch: `develop` (feat/analytics 머지됨)
+  - Phase 1 전체 태스크(00–09) 완료
+- **Known Limitations**:
+  - `identify(userId)` 미연결 — Phase 2 Apple Sign In 연동 후 authProvider에서 호출
+  - `total_sessions_completed` (day_2_return) — Phase 2 Supabase 연동 후 추가
+  - 실기기 PostHog 확인: `--dart-define=POSTHOG_API_KEY=...` 주입 후 수동 검증 필요
+- **Next**: `/phase-summary` 실행 → Phase 2 계획 수립
+
 ## 2026-05-14 | Task 06 완료 — Auth / Guest Mode First
 
 - **Completed**:
