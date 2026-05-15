@@ -172,4 +172,7 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get authSignInError => '로그인에 실패했습니다. 다시 시도해 주세요.';
+
+  @override
+  String get rewardGreatJob => '잘 했어요!';
 }

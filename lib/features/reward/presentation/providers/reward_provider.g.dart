@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'timer_provider.dart';
+part of 'reward_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -9,51 +9,51 @@ part of 'timer_provider.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(TimerNotifier)
-final timerProvider = TimerNotifierProvider._();
+@ProviderFor(RewardNotifier)
+final rewardProvider = RewardNotifierProvider._();
 
-final class TimerNotifierProvider
-    extends $NotifierProvider<TimerNotifier, TimerState> {
-  TimerNotifierProvider._()
+final class RewardNotifierProvider
+    extends $NotifierProvider<RewardNotifier, bool> {
+  RewardNotifierProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'timerProvider',
-        isAutoDispose: false,
+        name: r'rewardProvider',
+        isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$timerNotifierHash();
+  String debugGetCreateSourceHash() => _$rewardNotifierHash();
 
   @$internal
   @override
-  TimerNotifier create() => TimerNotifier();
+  RewardNotifier create() => RewardNotifier();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(TimerState value) {
+  Override overrideWithValue(bool value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<TimerState>(value),
+      providerOverride: $SyncValueProvider<bool>(value),
     );
   }
 }
 
-String _$timerNotifierHash() => r'82966c5a5f61b7ca9b4b926e877808b5db6ee74d';
+String _$rewardNotifierHash() => r'1fb6fb72d7d9a93eb9076e794d4136155bf1f691';
 
-abstract class _$TimerNotifier extends $Notifier<TimerState> {
-  TimerState build();
+abstract class _$RewardNotifier extends $Notifier<bool> {
+  bool build();
   @$mustCallSuper
   @override
   void runBuild() {
-    final ref = this.ref as $Ref<TimerState, TimerState>;
+    final ref = this.ref as $Ref<bool, bool>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<TimerState, TimerState>,
-              TimerState,
+              AnyNotifier<bool, bool>,
+              bool,
               Object?,
               Object?
             >;
