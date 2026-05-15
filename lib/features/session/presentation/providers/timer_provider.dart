@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import 'package:ownurtime/features/auth/domain/entities/auth_state.dart';
 import 'package:ownurtime/features/auth/presentation/providers/auth_provider.dart';
 import 'package:ownurtime/features/recovery/data/providers/distraction_providers.dart';
 import 'package:ownurtime/features/recovery/domain/entities/distraction.dart';
@@ -46,8 +47,9 @@ class TimerNotifier extends _$TimerNotifier {
     _currentResetCount = 0;
 
     final repo = ref.read(sessionRepositoryProvider);
+    final userId = ref.read(authProvider).value?.userId ?? _guestUserId;
     final session = await StartSessionUseCase(repo)(
-      userId: _guestUserId,
+      userId: userId,
       taskId: taskId,
       targetDurationMinutes: duration.inMinutes,
       manualWorkMode: manualWorkMode,
