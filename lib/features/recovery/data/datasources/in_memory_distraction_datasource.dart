@@ -6,13 +6,14 @@ class InMemoryDistractionDataSource {
 
   Future<DistractionModel> logDistraction(
     String sessionId,
-    DistractionType type,
-  ) async {
+    DistractionType type, {
+    required String userId,
+  }) async {
     final now = DateTime.now();
     final model = DistractionModel(
       id: now.microsecondsSinceEpoch.toString(),
       sessionId: sessionId,
-      userId: 'guest',
+      userId: userId,
       type: type,
       occurredAt: now,
     );

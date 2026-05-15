@@ -157,6 +157,7 @@ class TimerNotifier extends _$TimerNotifier {
       distraction = await ref.read(logDistractionUseCaseProvider)(
         sessionId: _activeSession?.id ?? _guestUserId,
         type: DistractionType.impulsive,
+        userId: ref.read(authProvider).value?.userId ?? _guestUserId,
       );
     } on Exception {
       // 로깅 실패 시 타이머 pause 유지, recovery 화면은 계속 표시

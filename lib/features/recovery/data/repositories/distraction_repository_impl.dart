@@ -10,9 +10,14 @@ class DistractionRepositoryImpl implements DistractionRepository {
   @override
   Future<Distraction> logDistraction(
     String sessionId,
-    DistractionType type,
-  ) async {
-    final model = await _dataSource.logDistraction(sessionId, type);
+    DistractionType type, {
+    required String userId,
+  }) async {
+    final model = await _dataSource.logDistraction(
+      sessionId,
+      type,
+      userId: userId,
+    );
     return model.toEntity();
   }
 

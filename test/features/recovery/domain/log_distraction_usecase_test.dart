@@ -11,14 +11,15 @@ class _FakeDistractionRepository implements DistractionRepository {
   @override
   Future<Distraction> logDistraction(
     String sessionId,
-    DistractionType type,
-  ) async {
+    DistractionType type, {
+    required String userId,
+  }) async {
     calledSessionId = sessionId;
     calledType = type;
     return Distraction(
       id: 'd1',
       sessionId: sessionId,
-      userId: 'guest',
+      userId: userId,
       type: type,
       occurredAt: DateTime(2026, 1, 1),
     );
@@ -36,6 +37,7 @@ void main() {
     final result = await useCase(
       sessionId: 'session-1',
       type: DistractionType.urgent,
+      userId: 'guest',
     );
 
     expect(repo.calledSessionId, 'session-1');

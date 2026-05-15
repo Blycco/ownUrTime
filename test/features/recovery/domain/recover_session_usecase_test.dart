@@ -8,7 +8,11 @@ class _FakeDistractionRepository implements DistractionRepository {
   String? markedId;
 
   @override
-  Future<Distraction> logDistraction(String sessionId, DistractionType type) {
+  Future<Distraction> logDistraction(
+    String sessionId,
+    DistractionType type, {
+    required String userId,
+  }) {
     throw UnimplementedError();
   }
 

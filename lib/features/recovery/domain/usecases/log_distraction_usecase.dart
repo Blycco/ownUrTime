@@ -9,7 +9,8 @@ class LogDistractionUseCase {
   Future<Distraction> call({
     required String sessionId,
     required DistractionType type,
+    required String userId,
   }) {
-    return _repository.logDistraction(sessionId, type);
+    return _repository.logDistraction(sessionId, type, userId: userId);
   }
 }

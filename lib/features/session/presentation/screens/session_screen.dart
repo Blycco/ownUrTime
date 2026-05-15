@@ -84,12 +84,14 @@ class SessionScreen extends ConsumerWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(l10n.sessionCompletedTitle),
-            const SizedBox(height: 16),
-            MoodCheckWidget(
-              onMoodSelected: (level) =>
-                  unawaited(moodNotifier.checkMood(level)),
-              onSkip: moodNotifier.skip,
-            ),
+            if (moodState is MoodCheckPending) ...[
+              const SizedBox(height: 16),
+              MoodCheckWidget(
+                onMoodSelected: (level) =>
+                    unawaited(moodNotifier.checkMood(level)),
+                onSkip: moodNotifier.skip,
+              ),
+            ],
             const SizedBox(height: 12),
             FilledButton(
               onPressed: () => Navigator.of(context).maybePop(),
