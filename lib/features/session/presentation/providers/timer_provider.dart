@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import 'package:ownurtime/core/analytics/analytics_providers.dart';
 import 'package:ownurtime/features/auth/domain/entities/auth_state.dart';
 import 'package:ownurtime/features/auth/presentation/providers/auth_provider.dart';
 import 'package:ownurtime/features/recovery/data/providers/distraction_providers.dart';
@@ -26,6 +27,7 @@ class TimerNotifier extends _$TimerNotifier {
   int _sessionCount = 0;
   int _currentDistractionCount = 0;
   int _currentResetCount = 0;
+  DateTime? _lastDistractionAt;
 
   @override
   TimerState build() {
@@ -55,6 +57,18 @@ class TimerNotifier extends _$TimerNotifier {
       manualWorkMode: manualWorkMode,
     );
     _activeSession = session;
+
+    ref
+        .read(analyticsServiceProvider)
+        .track(
+          'initiation_conversion',
+          properties: {
+            'task_linked': taskId != null,
+            'duration_minutes': duration.inMinutes,
+            'manual_work_mode': manualWorkMode,
+          },
+        )
+        .ignore();
 
     state = TimerState.running(
       remaining: duration,
@@ -119,7 +133,24 @@ class TimerNotifier extends _$TimerNotifier {
     _cancelTicker();
 
     _currentDistractionCount = current.distractionCount + 1;
+    _lastDistractionAt = DateTime.now();
     state = TimerState.paused(remaining: current.remaining);
+
+    final target = _targetDuration;
+    final elapsed = target != null
+        ? target.inSeconds - current.remaining.inSeconds
+        : 0;
+    ref
+        .read(analyticsServiceProvider)
+        .track(
+          'session_distracted',
+          properties: {
+            'distraction_type': DistractionType.impulsive.name,
+            'minutes_into_session': elapsed ~/ 60,
+            'session_target_minutes': target?.inMinutes ?? 0,
+          },
+        )
+        .ignore();
 
     Distraction? distraction;
     try {
@@ -149,6 +180,21 @@ class TimerNotifier extends _$TimerNotifier {
   void resumeFromDistraction() {
     final current = state;
     if (current is! TimerPaused) return;
+    final distractionTime = _lastDistractionAt;
+    final recoverySeconds = distractionTime != null
+        ? DateTime.now().difference(distractionTime).inSeconds
+        : 0;
+    _lastDistractionAt = null;
+    ref
+        .read(analyticsServiceProvider)
+        .track(
+          'recovery_returned',
+          properties: {
+            'distraction_type': DistractionType.impulsive.name,
+            'recovery_seconds': recoverySeconds,
+          },
+        )
+        .ignore();
     state = TimerState.running(
       remaining: current.remaining,
       distractionCount: _currentDistractionCount,
@@ -179,6 +225,18 @@ class TimerNotifier extends _$TimerNotifier {
       CompleteSessionUseCase(repo)(session.id).ignore();
     }
     ref.read(authProvider.notifier).incrementSessionCompletionCount().ignore();
+    ref
+        .read(analyticsServiceProvider)
+        .track(
+          'session_completed',
+          properties: {
+            'duration_minutes': _targetDuration?.inMinutes ?? 0,
+            'distraction_count': _currentDistractionCount,
+            'reset_count': _currentResetCount,
+          },
+        )
+        .ignore();
+    ref.read(analyticsServiceProvider).recordFirstSessionDate().ignore();
   }
 
   void _startTicker() {
