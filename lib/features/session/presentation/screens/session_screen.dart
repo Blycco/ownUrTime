@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:ownurtime/core/backup/backup_restoration_provider.dart';
 import 'package:ownurtime/core/l10n/app_localizations.dart';
 import 'package:ownurtime/features/auth/domain/entities/auth_state.dart';
 import 'package:ownurtime/features/auth/presentation/providers/auth_provider.dart';
@@ -47,6 +48,7 @@ class SessionScreen extends ConsumerWidget {
     ref.listen<TimerState>(timerProvider, (prev, next) {
       if (next is TimerCompleted && prev is! TimerCompleted) {
         ref.read(rewardProvider.notifier).show();
+        unawaited(ref.read(backupTriggerProvider.notifier).trigger());
       }
     });
     final timerState = ref.watch(timerProvider);
