@@ -89,4 +89,21 @@ void main() {
       expect(resumed, isA<TimerRunning>());
     });
   });
+
+  group('completion event', () {
+    test('state becomes TimerCompleted when timer reaches zero', () async {
+      final container = ProviderContainer();
+      addTearDown(container.dispose);
+      final sub = container.listen<TimerState>(timerProvider, (prev, next) {});
+      addTearDown(sub.close);
+
+      await container
+          .read(timerProvider.notifier)
+          .start(const Duration(seconds: 1));
+      await Future<void>.delayed(const Duration(milliseconds: 1500));
+
+      final state = container.read(timerProvider);
+      expect(state, isA<TimerCompleted>());
+    });
+  });
 }

@@ -73,5 +73,6 @@
   "authContinueAsGuest": "Continue as guest",
   "authPromptTitle": "Save your progress and continue on any device",
   "authMaybeLater": "Maybe later",
-  "authSignInError": "Sign in failed. Please try again."
+  "authSignInError": "Sign in failed. Please try again.",
+  "rewardGreatJob": "Great work!"
 }

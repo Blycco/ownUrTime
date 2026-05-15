@@ -9,6 +9,8 @@ import 'package:ownurtime/core/l10n/app_localizations.dart';
 import 'package:ownurtime/features/auth/domain/entities/auth_state.dart';
 import 'package:ownurtime/features/auth/presentation/providers/auth_provider.dart';
 import 'package:ownurtime/features/auth/presentation/widgets/sign_in_prompt_sheet.dart';
+import 'package:ownurtime/features/reward/presentation/providers/reward_provider.dart';
+import 'package:ownurtime/features/reward/presentation/widgets/completion_reward_widget.dart';
 import 'package:ownurtime/features/mood/presentation/providers/mood_check_provider.dart';
 import 'package:ownurtime/features/mood/presentation/widgets/mood_check_widget.dart';
 import 'package:ownurtime/features/session/domain/entities/timer_state.dart';
@@ -37,7 +39,18 @@ class SessionScreen extends ConsumerWidget {
         );
       }
     });
+    // SAFETY: TimerState.completed() is a const constructor; Riverpod
+    // deduplicates identical values, so re-entering SessionScreen while in
+    // TimerCompleted will not re-fire this listener. If TimerCompleted ever
+    // gains fields and loses const-equality, add a _rewardFired guard in
+    // TimerNotifier._complete().
+    ref.listen<TimerState>(timerProvider, (prev, next) {
+      if (next is TimerCompleted && prev is! TimerCompleted) {
+        ref.read(rewardProvider.notifier).show();
+      }
+    });
     final timerState = ref.watch(timerProvider);
+    final rewardVisible = ref.watch(rewardProvider);
     final notifier = ref.read(timerProvider.notifier);
 
     Future<void> handleDistraction() async {
@@ -204,6 +217,12 @@ class SessionScreen extends ConsumerWidget {
                 if (timerState is TimerRunning &&
                     timerState.adaptiveCheckInVisible)
                   const Positioned.fill(child: AdaptiveCheckinOverlay()),
+                if (rewardVisible)
+                  Positioned.fill(
+                    child: CompletionRewardWidget(
+                      onDismiss: () => ref.read(rewardProvider.notifier).hide(),
+                    ),
+                  ),
               ],
             ),
           ),

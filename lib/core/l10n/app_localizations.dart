@@ -415,6 +415,12 @@ abstract class AppLocalizations {
   /// In ko, this message translates to:
   /// **'로그인에 실패했습니다. 다시 시도해 주세요.'**
   String get authSignInError;
+
+  /// No description provided for @rewardGreatJob.
+  ///
+  /// In ko, this message translates to:
+  /// **'잘 했어요!'**
+  String get rewardGreatJob;
 }
 
 class _AppLocalizationsDelegate
