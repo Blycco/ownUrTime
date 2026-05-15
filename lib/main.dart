@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:talker_riverpod_logger/talker_riverpod_logger.dart';
 
+import 'package:ownurtime/core/analytics/analytics_providers.dart';
+import 'package:ownurtime/core/analytics/day2_return_provider.dart';
 import 'package:ownurtime/core/backup/backup_restoration_provider.dart';
 import 'package:ownurtime/core/l10n/app_localizations.dart';
 import 'package:ownurtime/core/logging/logger_service.dart';
@@ -41,7 +43,12 @@ void main() async {
     ],
   );
 
+  await container
+      .read(analyticsServiceProvider)
+      .init(const String.fromEnvironment('POSTHOG_API_KEY'));
+
   await container.read(backupRestorationProvider.future);
+  await container.read(day2ReturnCheckProvider.future);
 
   runApp(
     UncontrolledProviderScope(
