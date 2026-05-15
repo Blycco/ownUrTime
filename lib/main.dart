@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:talker_riverpod_logger/talker_riverpod_logger.dart';
 
+import 'package:ownurtime/core/backup/backup_restoration_provider.dart';
 import 'package:ownurtime/core/l10n/app_localizations.dart';
 import 'package:ownurtime/core/logging/logger_service.dart';
 import 'package:ownurtime/core/router/app_router.dart';
@@ -23,22 +24,28 @@ void main() async {
     );
   }
 
-  runApp(
-    ProviderScope(
-      observers: [
-        TalkerRiverpodObserver(
-          talker: appTalker,
-          settings: const TalkerRiverpodLoggerSettings(
-            enabled: !bool.fromEnvironment('dart.vm.product'),
-            printProviderUpdated: true,
-            printProviderFailed: true,
-            printProviderAdded: false,
-            printProviderDisposed: false,
-            printStateFullData: false,
-            printFailFullData: false,
-          ),
+  final container = ProviderContainer(
+    observers: [
+      TalkerRiverpodObserver(
+        talker: appTalker,
+        settings: const TalkerRiverpodLoggerSettings(
+          enabled: !bool.fromEnvironment('dart.vm.product'),
+          printProviderUpdated: true,
+          printProviderFailed: true,
+          printProviderAdded: false,
+          printProviderDisposed: false,
+          printStateFullData: false,
+          printFailFullData: false,
         ),
-      ],
+      ),
+    ],
+  );
+
+  await container.read(backupRestorationProvider.future);
+
+  runApp(
+    UncontrolledProviderScope(
+      container: container,
       child: const OwnUrTimeApp(),
     ),
   );

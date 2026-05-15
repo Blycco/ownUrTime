@@ -4,6 +4,12 @@ import 'package:ownurtime/features/session/domain/entities/session.dart';
 class InMemorySessionDataSource implements SessionLocalDataSource {
   final Map<String, Session> _store = {};
 
+  void hydrate(List<Session> sessions) {
+    _store
+      ..clear()
+      ..addAll({for (final Session s in sessions) s.id: s});
+  }
+
   @override
   Future<Session> startSession({
     required String userId,

@@ -4,8 +4,12 @@ import 'package:ownurtime/features/task/data/datasources/in_memory_task_datasour
 import 'package:ownurtime/features/task/data/repositories/task_repository_impl.dart';
 import 'package:ownurtime/features/task/domain/repositories/task_repository.dart';
 
-final taskLocalDataSourceProvider = Provider<TaskLocalDataSource>(
+final inMemoryTaskDataSourceProvider = Provider<InMemoryTaskDataSource>(
   (Ref ref) => InMemoryTaskDataSource(),
+);
+
+final taskLocalDataSourceProvider = Provider<TaskLocalDataSource>(
+  (Ref ref) => ref.watch(inMemoryTaskDataSourceProvider),
 );
 
 final taskRepositoryProvider = Provider<TaskRepository>(

@@ -13,6 +13,13 @@ abstract interface class TaskLocalDataSource {
 
 class InMemoryTaskDataSource implements TaskLocalDataSource {
   final List<TaskModel> _tasks = <TaskModel>[];
+
+  void hydrate(List<TaskModel> tasks) {
+    _tasks
+      ..clear()
+      ..addAll(tasks);
+  }
+
   // UI-only guard; authoritative rate limit enforced in Supabase Edge Function.
   int _remainingToday = 10;
 
