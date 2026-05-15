@@ -8,4 +8,8 @@ abstract interface class TaskRepository {
     String taskId,
     String title,
   );
+  Future<void> migrateToUser({
+    required List<Task> tasks,
+    required String newUserId,
+  });
 }

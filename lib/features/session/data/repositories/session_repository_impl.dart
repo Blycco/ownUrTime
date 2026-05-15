@@ -36,4 +36,19 @@ class SessionRepositoryImpl implements SessionRepository {
   Future<Session> updateSession(Session session) {
     return _dataSource.updateSession(session);
   }
+
+  @override
+  Future<List<Session>> getSessions(String userId) {
+    return _dataSource.getSessions(userId);
+  }
+
+  @override
+  Future<void> migrateToUser({
+    required List<Session> sessions,
+    required String newUserId,
+  }) async {
+    for (final session in sessions) {
+      await _dataSource.updateSession(session.copyWith(userId: newUserId));
+    }
+  }
 }

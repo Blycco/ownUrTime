@@ -6,6 +6,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:ownurtime/core/l10n/app_localizations.dart';
+import 'package:ownurtime/features/auth/domain/entities/auth_state.dart';
+import 'package:ownurtime/features/auth/presentation/providers/auth_provider.dart';
+import 'package:ownurtime/features/auth/presentation/widgets/sign_in_prompt_sheet.dart';
 import 'package:ownurtime/features/mood/presentation/providers/mood_check_provider.dart';
 import 'package:ownurtime/features/mood/presentation/widgets/mood_check_widget.dart';
 import 'package:ownurtime/features/session/domain/entities/timer_state.dart';
@@ -23,6 +26,17 @@ class SessionScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
+    ref.listen<AsyncValue<AuthState>>(authProvider, (prev, next) {
+      final prevCount = prev?.value?.sessionCompletionCount ?? 0;
+      final nextCount = next.value?.sessionCompletionCount ?? 0;
+      final dismissed = ref.read(signInPromptProvider);
+      if (nextCount >= 3 && prevCount < 3 && !dismissed && context.mounted) {
+        showModalBottomSheet<void>(
+          context: context,
+          builder: (_) => const SignInPromptSheet(),
+        );
+      }
+    });
     final timerState = ref.watch(timerProvider);
     final notifier = ref.read(timerProvider.notifier);
 

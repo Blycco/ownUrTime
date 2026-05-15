@@ -30,6 +30,14 @@ class FakeTaskRepository implements TaskRepository {
   ) {
     throw UnimplementedError();
   }
+
+  @override
+  Future<void> migrateToUser({
+    required List<Task> tasks,
+    required String newUserId,
+  }) {
+    throw UnimplementedError();
+  }
 }
 
 void main() {

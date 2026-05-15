@@ -385,6 +385,36 @@ abstract class AppLocalizations {
   /// In ko, this message translates to:
   /// **'건너뛰기'**
   String get moodSkipButton;
+
+  /// No description provided for @authSignInWithApple.
+  ///
+  /// In ko, this message translates to:
+  /// **'Apple로 로그인'**
+  String get authSignInWithApple;
+
+  /// No description provided for @authContinueAsGuest.
+  ///
+  /// In ko, this message translates to:
+  /// **'게스트로 계속'**
+  String get authContinueAsGuest;
+
+  /// No description provided for @authPromptTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'진행 상황을 저장하고 여러 기기에서 이어가세요'**
+  String get authPromptTitle;
+
+  /// No description provided for @authMaybeLater.
+  ///
+  /// In ko, this message translates to:
+  /// **'나중에'**
+  String get authMaybeLater;
+
+  /// No description provided for @authSignInError.
+  ///
+  /// In ko, this message translates to:
+  /// **'로그인에 실패했습니다. 다시 시도해 주세요.'**
+  String get authSignInError;
 }
 
 class _AppLocalizationsDelegate

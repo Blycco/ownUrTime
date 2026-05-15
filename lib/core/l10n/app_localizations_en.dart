@@ -158,4 +158,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get moodSkipButton => 'Skip';
+
+  @override
+  String get authSignInWithApple => 'Sign in with Apple';
+
+  @override
+  String get authContinueAsGuest => 'Continue as guest';
+
+  @override
+  String get authPromptTitle => 'Save your progress and continue on any device';
+
+  @override
+  String get authMaybeLater => 'Maybe later';
+
+  @override
+  String get authSignInError => 'Sign in failed. Please try again.';
 }

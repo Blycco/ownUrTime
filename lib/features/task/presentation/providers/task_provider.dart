@@ -1,25 +1,17 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import 'package:ownurtime/features/task/data/datasources/in_memory_task_datasource.dart';
-import 'package:ownurtime/features/task/data/repositories/task_repository_impl.dart';
+import 'package:ownurtime/features/task/data/providers/task_data_providers.dart';
 import 'package:ownurtime/features/task/domain/entities/task.dart';
-import 'package:ownurtime/features/task/domain/repositories/task_repository.dart';
 import 'package:ownurtime/features/task/domain/usecases/create_task_usecase.dart';
 import 'package:ownurtime/features/task/domain/usecases/decompose_task_usecase.dart';
 import 'package:ownurtime/features/task/domain/usecases/get_tasks_usecase.dart';
 
+export 'package:ownurtime/features/task/data/providers/task_data_providers.dart'
+    show taskLocalDataSourceProvider, taskRepositoryProvider;
+
 part 'task_provider.g.dart';
 
 const String _guestUserId = 'guest';
-
-final taskLocalDataSourceProvider = Provider<TaskLocalDataSource>(
-  (Ref ref) => InMemoryTaskDataSource(),
-);
-
-final taskRepositoryProvider = Provider<TaskRepository>(
-  (Ref ref) => TaskRepositoryImpl(ref.watch(taskLocalDataSourceProvider)),
-);
 
 @riverpod
 class TaskListNotifier extends _$TaskListNotifier {

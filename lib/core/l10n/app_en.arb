@@ -68,5 +68,10 @@
     }
   },
   "recoveryContextElapsedLabel": "{minutes} min into session",
-  "moodSkipButton": "Skip"
+  "moodSkipButton": "Skip",
+  "authSignInWithApple": "Sign in with Apple",
+  "authContinueAsGuest": "Continue as guest",
+  "authPromptTitle": "Save your progress and continue on any device",
+  "authMaybeLater": "Maybe later",
+  "authSignInError": "Sign in failed. Please try again."
 }

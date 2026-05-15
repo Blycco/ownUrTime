@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import 'package:ownurtime/features/auth/domain/entities/auth_state.dart';
+import 'package:ownurtime/features/auth/presentation/providers/auth_provider.dart';
 import 'package:ownurtime/features/recovery/data/providers/distraction_providers.dart';
 import 'package:ownurtime/features/recovery/domain/entities/distraction.dart';
 import 'package:ownurtime/features/session/data/providers/session_providers.dart';
@@ -45,8 +47,9 @@ class TimerNotifier extends _$TimerNotifier {
     _currentResetCount = 0;
 
     final repo = ref.read(sessionRepositoryProvider);
+    final userId = ref.read(authProvider).value?.userId ?? _guestUserId;
     final session = await StartSessionUseCase(repo)(
-      userId: _guestUserId,
+      userId: userId,
       taskId: taskId,
       targetDurationMinutes: duration.inMinutes,
       manualWorkMode: manualWorkMode,
@@ -175,6 +178,7 @@ class TimerNotifier extends _$TimerNotifier {
       final repo = ref.read(sessionRepositoryProvider);
       CompleteSessionUseCase(repo)(session.id).ignore();
     }
+    ref.read(authProvider.notifier).incrementSessionCompletionCount().ignore();
   }
 
   void _startTicker() {
