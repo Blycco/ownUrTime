@@ -17,7 +17,16 @@ class TaskListScreen extends ConsumerWidget {
     final tasksAsync = ref.watch(taskListProvider);
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.taskListTitle)),
+      appBar: AppBar(
+        title: Text(l10n.taskListTitle),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings_outlined),
+            tooltip: l10n.settingsAppBarAction,
+            onPressed: () => context.push('/settings'),
+          ),
+        ],
+      ),
       body: tasksAsync.when(
         data: (tasks) {
           final visible = tasks

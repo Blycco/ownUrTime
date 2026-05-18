@@ -30,6 +30,7 @@ jobs:
         if: steps.detect.outputs.has_flutter == 'true'
         uses: subosito/flutter-action@v2
         with:
+          flutter-version: '3.41.9'
           channel: stable
 
       - name: Install dependencies
@@ -48,6 +49,10 @@ jobs:
         if: steps.detect.outputs.has_flutter == 'true'
         run: flutter test
 
+      - name: Security audit
+        if: steps.detect.outputs.has_flutter == 'true'
+        run: flutter pub audit
+
       - name: Secret scan (Dart source)
         if: steps.detect.outputs.has_flutter == 'true'
         run: |
@@ -60,4 +65,3 @@ jobs:
       - name: Skip note
         if: steps.detect.outputs.has_flutter != 'true'
         run: echo "pubspec.yaml not found. Flutter checks skipped."
-

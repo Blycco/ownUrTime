@@ -2,6 +2,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:ownurtime/features/auth/data/providers/auth_providers.dart';
 import 'package:ownurtime/features/auth/domain/entities/auth_state.dart';
+import 'package:ownurtime/features/auth/domain/usecases/delete_account_usecase.dart';
 import 'package:ownurtime/features/auth/domain/usecases/sign_in_with_apple_usecase.dart';
 import 'package:ownurtime/features/auth/domain/usecases/sign_out_usecase.dart';
 
@@ -80,6 +81,24 @@ class AuthNotifier extends _$AuthNotifier {
       // Restore a usable state rather than leaving the UI stuck in loading.
       state = const AsyncData(AuthState.guest());
       Error.throwWithStackTrace(e, st);
+    }
+  }
+
+  Future<void> deleteAccount() async {
+    final currentState = state.value;
+    if (currentState == null) return;
+    final userId = currentState.whenOrNull(authenticated: (user) => user.id);
+    if (userId == null) return;
+
+    state = const AsyncLoading();
+    try {
+      final repo = ref.read(authRepositoryProvider);
+      final useCase = DeleteAccountUseCase(repo);
+      await useCase(userId);
+      state = const AsyncData(AuthState.guest());
+    } on Exception catch (e, st) {
+      state = AsyncError(e, st);
+      rethrow;
     }
   }
 }

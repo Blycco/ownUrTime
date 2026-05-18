@@ -38,6 +38,9 @@ class FakeAuthRepository implements AuthRepository {
 
   @override
   Future<AppUser?> getPersistedUser() async => _persistedUser;
+
+  @override
+  Future<void> deleteAccount(String userId) async {}
 }
 
 class _FakeTaskRepo implements TaskRepository {

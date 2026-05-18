@@ -74,5 +74,18 @@
   "authPromptTitle": "Save your progress and continue on any device",
   "authMaybeLater": "Maybe later",
   "authSignInError": "Sign in failed. Please try again.",
-  "rewardGreatJob": "Great work!"
+  "rewardGreatJob": "Great work!",
+  "settingsTitle": "Settings",
+  "settingsDeleteAccount": "Delete Account",
+  "settingsPrivacyPolicy": "Privacy Policy",
+  "deleteAccountDialogTitle": "Delete your account?",
+  "deleteAccountDialogBody": "All your tasks and data will be permanently deleted. This cannot be undone.",
+  "deleteAccountDialogCancel": "Cancel",
+  "deleteAccountDialogConfirm": "Delete",
+  "deleteAccountSuccess": "Your account has been deleted.",
+  "deleteAccountErrorNetwork": "Network error. Please try again.",
+  "deleteAccountErrorServer": "Server error. Please try again later.",
+  "settingsAppBarAction": "Settings",
+  "privacyPolicyTitle": "Privacy Policy",
+  "privacyPolicyBody": "Privacy Policy\n\nThis app collects optional email address information through Apple Sign In. Collected information is used only for app functionality.\n\nUsers can permanently delete all data at any time by deleting their account.\n\nContact: support@ownurtime.app"
 }

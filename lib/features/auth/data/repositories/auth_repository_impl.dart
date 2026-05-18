@@ -24,4 +24,10 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<AppUser?> getPersistedUser() => _remote.getPersistedUser();
+
+  @override
+  Future<void> deleteAccount(String userId) async {
+    await _remote.deleteAccount(userId);
+    await _local.clearAll();
+  }
 }
