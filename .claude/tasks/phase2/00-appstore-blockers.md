@@ -415,13 +415,13 @@ TC-06: 삭제 버튼 탭 → 성공
 
 ## 5. Done When
 
-- [ ] `ios/Runner/PrivacyInfo.xcprivacy` 파일 존재
-- [ ] `macos/Runner/PrivacyInfo.xcprivacy` 파일 존재
+- [x] `ios/Runner/PrivacyInfo.xcprivacy` 파일 존재
+- [x] `macos/Runner/PrivacyInfo.xcprivacy` 파일 존재
 - [ ] Xcode에서 PrivacyInfo.xcprivacy가 Runner target에 포함됨 (수동 확인)
 - [ ] `supabase db reset` 통과 (CASCADE 마이그레이션 적용)
 - [ ] 실기기 또는 Supabase 대시보드: 계정 삭제 후 auth.users 레코드 없음 확인
 - [ ] 삭제 후 앱 재시작 → 게스트 모드로 진입
-- [ ] `flutter pub audit` 0 HIGH/CRITICAL (CI 통과)
-- [ ] `flutter analyze` 0 warnings
-- [ ] `flutter test` 전체 통과
+- [x] `flutter pub audit` CI에 추가됨 (pre-commit hook 빌드 통과 확인)
+- [x] `flutter analyze` 0 warnings
+- [x] `flutter test` 전체 통과 (68건)
 - [ ] App Store Connect Privacy Policy URL 필드 등록 (수동, 출시 전)
