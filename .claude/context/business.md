@@ -16,7 +16,7 @@
 - Personalized AI recommendations (optimal start-time alerts)
 - Distraction pattern analysis
 - Detailed weekly reports
-- Layer 2 & 3 rewards (badges, themes, skins)
+- Layer 3 rewards only (badges — rarest tier; Layer 2 badges are free)
 - Advanced widget
 - Apple Calendar integration
 - AI task decomposition (unlimited)
@@ -35,7 +35,7 @@
 ## Key Paid Conversion Touchpoints (implement these first)
 1. AI decomposition limit screen (after 10/day)
 2. Personalized AI insight exposed ("Your initiation success peaks at 3pm")
-3. Layer 2/3 reward lock screen
+3. Layer 3 reward lock screen (Layer 2 is free — motivational baseline)
 
 ---
 

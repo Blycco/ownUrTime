@@ -5,6 +5,8 @@ import 'package:go_router/go_router.dart';
 import 'package:ownurtime/features/recovery/domain/entities/distraction.dart';
 import 'package:ownurtime/features/recovery/presentation/screens/recovery_screen.dart';
 import 'package:ownurtime/features/session/presentation/screens/session_screen.dart';
+import 'package:ownurtime/features/settings/presentation/screens/privacy_policy_screen.dart';
+import 'package:ownurtime/features/settings/presentation/screens/settings_screen.dart';
 import 'package:ownurtime/features/task/presentation/screens/task_list_screen.dart';
 import 'package:ownurtime/features/task/presentation/screens/task_start_screen.dart';
 
@@ -49,6 +51,14 @@ final appRouterProvider = Provider<GoRouter>(
             elapsedTime: elapsedTime,
           );
         },
+      ),
+      GoRoute(
+        path: '/settings',
+        builder: (context, state) => const SettingsScreen(),
+      ),
+      GoRoute(
+        path: '/privacy-policy',
+        builder: (context, state) => const PrivacyPolicyScreen(),
       ),
     ],
   ),

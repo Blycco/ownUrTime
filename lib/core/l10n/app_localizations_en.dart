@@ -176,4 +176,46 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get rewardGreatJob => 'Great work!';
+
+  @override
+  String get settingsTitle => 'Settings';
+
+  @override
+  String get settingsDeleteAccount => 'Delete Account';
+
+  @override
+  String get settingsPrivacyPolicy => 'Privacy Policy';
+
+  @override
+  String get deleteAccountDialogTitle => 'Delete your account?';
+
+  @override
+  String get deleteAccountDialogBody =>
+      'All your tasks and data will be permanently deleted. This cannot be undone.';
+
+  @override
+  String get deleteAccountDialogCancel => 'Cancel';
+
+  @override
+  String get deleteAccountDialogConfirm => 'Delete';
+
+  @override
+  String get deleteAccountSuccess => 'Your account has been deleted.';
+
+  @override
+  String get deleteAccountErrorNetwork => 'Network error. Please try again.';
+
+  @override
+  String get deleteAccountErrorServer =>
+      'Server error. Please try again later.';
+
+  @override
+  String get settingsAppBarAction => 'Settings';
+
+  @override
+  String get privacyPolicyTitle => 'Privacy Policy';
+
+  @override
+  String get privacyPolicyBody =>
+      'Privacy Policy\n\nThis app collects optional email address information through Apple Sign In. Collected information is used only for app functionality.\n\nUsers can permanently delete all data at any time by deleting their account.\n\nContact: support@ownurtime.app';
 }

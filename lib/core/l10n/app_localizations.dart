@@ -421,6 +421,84 @@ abstract class AppLocalizations {
   /// In ko, this message translates to:
   /// **'잘 했어요!'**
   String get rewardGreatJob;
+
+  /// No description provided for @settingsTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'설정'**
+  String get settingsTitle;
+
+  /// No description provided for @settingsDeleteAccount.
+  ///
+  /// In ko, this message translates to:
+  /// **'계정 삭제'**
+  String get settingsDeleteAccount;
+
+  /// No description provided for @settingsPrivacyPolicy.
+  ///
+  /// In ko, this message translates to:
+  /// **'개인정보처리방침'**
+  String get settingsPrivacyPolicy;
+
+  /// No description provided for @deleteAccountDialogTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'계정을 삭제할까요?'**
+  String get deleteAccountDialogTitle;
+
+  /// No description provided for @deleteAccountDialogBody.
+  ///
+  /// In ko, this message translates to:
+  /// **'모든 작업 기록과 데이터가 영구 삭제됩니다. 이 작업은 되돌릴 수 없어요.'**
+  String get deleteAccountDialogBody;
+
+  /// No description provided for @deleteAccountDialogCancel.
+  ///
+  /// In ko, this message translates to:
+  /// **'취소'**
+  String get deleteAccountDialogCancel;
+
+  /// No description provided for @deleteAccountDialogConfirm.
+  ///
+  /// In ko, this message translates to:
+  /// **'삭제'**
+  String get deleteAccountDialogConfirm;
+
+  /// No description provided for @deleteAccountSuccess.
+  ///
+  /// In ko, this message translates to:
+  /// **'계정이 삭제되었어요.'**
+  String get deleteAccountSuccess;
+
+  /// No description provided for @deleteAccountErrorNetwork.
+  ///
+  /// In ko, this message translates to:
+  /// **'네트워크 오류가 발생했어요. 다시 시도해주세요.'**
+  String get deleteAccountErrorNetwork;
+
+  /// No description provided for @deleteAccountErrorServer.
+  ///
+  /// In ko, this message translates to:
+  /// **'서버 오류가 발생했어요. 잠시 후 다시 시도해주세요.'**
+  String get deleteAccountErrorServer;
+
+  /// No description provided for @settingsAppBarAction.
+  ///
+  /// In ko, this message translates to:
+  /// **'설정'**
+  String get settingsAppBarAction;
+
+  /// No description provided for @privacyPolicyTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'개인정보처리방침'**
+  String get privacyPolicyTitle;
+
+  /// No description provided for @privacyPolicyBody.
+  ///
+  /// In ko, this message translates to:
+  /// **'개인정보처리방침\n\n본 앱은 Apple Sign In을 통해 이메일 주소(선택)를 수집합니다. 수집된 정보는 앱 기능 제공 목적으로만 사용됩니다.\n\n사용자는 언제든지 계정 삭제를 통해 모든 데이터를 영구 삭제할 수 있습니다.\n\n문의: support@ownurtime.app'**
+  String get privacyPolicyBody;
 }
 
 class _AppLocalizationsDelegate

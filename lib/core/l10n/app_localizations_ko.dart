@@ -175,4 +175,45 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get rewardGreatJob => '잘 했어요!';
+
+  @override
+  String get settingsTitle => '설정';
+
+  @override
+  String get settingsDeleteAccount => '계정 삭제';
+
+  @override
+  String get settingsPrivacyPolicy => '개인정보처리방침';
+
+  @override
+  String get deleteAccountDialogTitle => '계정을 삭제할까요?';
+
+  @override
+  String get deleteAccountDialogBody =>
+      '모든 작업 기록과 데이터가 영구 삭제됩니다. 이 작업은 되돌릴 수 없어요.';
+
+  @override
+  String get deleteAccountDialogCancel => '취소';
+
+  @override
+  String get deleteAccountDialogConfirm => '삭제';
+
+  @override
+  String get deleteAccountSuccess => '계정이 삭제되었어요.';
+
+  @override
+  String get deleteAccountErrorNetwork => '네트워크 오류가 발생했어요. 다시 시도해주세요.';
+
+  @override
+  String get deleteAccountErrorServer => '서버 오류가 발생했어요. 잠시 후 다시 시도해주세요.';
+
+  @override
+  String get settingsAppBarAction => '설정';
+
+  @override
+  String get privacyPolicyTitle => '개인정보처리방침';
+
+  @override
+  String get privacyPolicyBody =>
+      '개인정보처리방침\n\n본 앱은 Apple Sign In을 통해 이메일 주소(선택)를 수집합니다. 수집된 정보는 앱 기능 제공 목적으로만 사용됩니다.\n\n사용자는 언제든지 계정 삭제를 통해 모든 데이터를 영구 삭제할 수 있습니다.\n\n문의: support@ownurtime.app';
 }

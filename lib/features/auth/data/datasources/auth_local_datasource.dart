@@ -33,5 +33,5 @@ class SecureStorageAuthDataSource implements AuthLocalDataSource {
   }
 
   @override
-  Future<void> clearAll() => _storage.delete(key: _sessionCompletionCountKey);
+  Future<void> clearAll() => _storage.deleteAll();
 }
